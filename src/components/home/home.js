@@ -3,7 +3,7 @@ import MapComponent from '../map/map';
 import Login from '../login/login';
 import UserData from '../login/userData';
 import Header from './header';
-import {userLogin, userLogout} from '../../actions';
+import {userLogin, userLogout, addTempMarker} from '../../actions';
 import {connect} from 'react-redux';
 import { b, createBlock } from '../../helpers/bem';
 import './home.css';
@@ -19,6 +19,7 @@ class HomePage extends Component {
         }
     }
     render() {
+        const {addTempMarker, markers} = this.props
         return (
             <div className={b(block)}>
                 <div className={b(block, 'header')} >
@@ -30,7 +31,7 @@ class HomePage extends Component {
                 </div>
                 </div>
                 <div className={b(block, 'map')}>
-                    <MapComponent searchVenues={this.props.searchVenues} venues={this.props.venues}/>
+                    <MapComponent addTempMarker={addTempMarker} markers={markers}/>
                 </div>
             </div>
         );
@@ -39,13 +40,15 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => {
     return ({
-        user: state.homeReducer.user
+        user: state.user.user,
+        markers: state.markers
     });
 };
 
 const mapDispatchToProps = {
     userLogin,
-    userLogout
+    userLogout,
+    addTempMarker
 };
 
 export default connect(

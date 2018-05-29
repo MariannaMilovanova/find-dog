@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import homeReducer from './homeReducer';
+import user from './user';
+import markers from './markers'
 
 const rootReducer = combineReducers({
-  homeReducer
+  user,
+  markers
 });
 
 export default rootReducer;
