@@ -1,0 +1,6 @@
+.fsq-input-search {
+  position: absolute;
+  top: -40px;
+  width: 100%; }
+  .fsq-input-search .ui.input input {
+    border: 1px solid rgba(34, 36, 38, 0.45); }

@@ -1,0 +1,48 @@
+.queries-list-wrapper {
+    width: 800px;
+    order:0;
+    margin-bottom: 50px;
+}
+.search-history-table {
+    .search-history-item { 
+        align-items: center;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+        justify-content: space-between;
+        vertical-align: middle;
+        border-bottom: 1px solid rgba(225, 225, 225, 0.9);  
+        font-size: 16px;
+        .search-history-cell {
+            width:19.75%;
+            padding: 5px 0;
+        }
+        .search-history-cell-img {
+            width:19.75%;
+            padding: 5px 0;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            flex-direction: row;
+            div {
+                padding-left: 10px;
+            }
+            .recycle-bin-img {
+                cursor: pointer;
+            }
+        }
+        .search-history-cell-date {
+            width:25%;
+            padding: 5px 0;
+
+        }
+        .search-history-cell-radius {
+            width:15.75%;
+            padding: 5px 0;
+        }
+    }
+    .search-history-item:nth-child(even) {
+        background: rgba(0, 0, 50, 0.02);  
+    }
+}
