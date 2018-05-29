@@ -23,10 +23,10 @@ class Login extends Component {
             localStorage.setItem('active', response.googleId);
             this.props.userLogin(user);
         }
-    }
+    };
     responseError = (response) => {
         console.log(response);
-    }
+    };
     logout = () => {
         localStorage.removeItem('active');
         const auth2 = gapi.auth2.getAuthInstance();
@@ -34,7 +34,7 @@ class Login extends Component {
             console.log('User signed out.');
         });
         this.props.userLogout();
-    }
+    };
 
     render() {
         return (

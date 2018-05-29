@@ -1,22 +1,27 @@
-.home-page-wrapper {
+.Home {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-bottom: 40px; }
-  .home-page-wrapper .Header {
+  align-items: center; }
+  .Home__header {
     width: 100%;
-    padding: 50px 70px 0 70px;
-    position: relative;
-    font-family: 'Playfair Display', serif;
+    height: 180px;
+    font-family: 'Open Sans', sans-serif;
     font-size: 35px;
-    text-align: center; }
-  .home-page-wrapper .user {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; }
+  .Home__user {
     position: absolute;
     top: 20px;
-    right: 20%; }
-  .home-page-wrapper .map-wrapper {
+    right: 20%;
+    font-size: 14px; }
+  .Home__map {
     padding-top: 10px;
     margin-bottom: 10px;
     width: 800px;
     height: 500px;
     position: relative; }
+
+.Header__welcome {
+  padding-top: 50px; }

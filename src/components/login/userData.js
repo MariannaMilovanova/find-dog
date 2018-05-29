@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, Icon } from 'semantic-ui-react';
+import { b, createBlock } from '../../helpers/bem';
 import "./login.scss";
 
+const block = createBlock('UserData');
+
 const UserData = (props) => (
-     <div className="user-wrapper">
+     <div className={b(block)}>
         {props.user
             ? <div>
                 <Image src={props.user.imageUrl} avatar size='tiny' alt={props.user.name} title={props.user.name} />
