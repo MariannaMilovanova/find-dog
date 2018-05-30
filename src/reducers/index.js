@@ -1,8 +1,14 @@
 import { combineReducers } from 'redux';
-import homeReducer from '../components/home/homeReducer';
+import user from './user';
+import markers from './markers';
+import pets from './pets';
+import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
-  homeReducer
+  user,
+  markers,
+  pets,
+  form: formReducer
 });
 
 export default rootReducer;
