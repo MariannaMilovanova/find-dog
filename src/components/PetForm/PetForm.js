@@ -126,7 +126,7 @@ class PetForm extends Component {
             ? <div>
               <Image src={url} avatar size='small' alt={"picture"}/>
             </div>
-            : <Icon name='spy' size='huge' color='blue'/>}</div>
+            : <Icon name='paw' size='huge' color='brown'/>}</div>
         </div>
         <Field
           label='Pet was found or lost'
