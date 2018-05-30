@@ -22,28 +22,21 @@
     justify-content: space-between;
     padding: 0 20px;
   }
-  &__photo-input {
-    padding: 10px  0 10px;
-  }
-  &__photo-submit {
-    background-color: #7f7474;
-    text-transform: uppercase;
-    padding: 4px 7px;
-    width: 100px;
-    color: white;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 12px;
-    align-items: center;
+  &__upload {
+    height: 40px;
   }
   &__upload-label {
-    background-color: #333;
+    background-color: #308939;
+    border-radius: 4px;
+    margin-top: 5px;
     color: #fff;
     border: none;
     cursor: pointer;
     padding: 5px;
+    max-width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 [type=file] {

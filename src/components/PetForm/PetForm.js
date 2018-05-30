@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import { Link } from "react-router-dom";
+import axios from 'axios';
 import { addPet } from "../../actions";
 import { connect } from "react-redux";
 import { type, pets, breed, age, color } from "../messages";
@@ -11,6 +11,9 @@ import "./PetForm.css";
 import _ from "lodash";
 
 const block = createBlock("PetForm");
+
+const CLOUDINARY_URL='cloudinary://359629516473431:zCTgXyn6P-FOfpEpA6OvKzoGFQs@dskimackd';
+const UPLOAD_IMAGE_URL='https://api.cloudinary.com/v1_1/dskimackd/image/upload';
 
 const FIELDS = {
   foundOrLost: "whether pet was found or lost",
@@ -27,15 +30,32 @@ class PetForm extends Component {
     super(props);
     this.state = {
       species: false,
-      file: null
+      fileName: null
     };
   }
-  upload = () => {
-    const {file} = this.state;
-    console.log(file);
+  upload = e => {
+    const file = e.target.files[0];
+    this.setState({fileName: file.name || ''})
+    const cloudName = 'dskimackd';
+    const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("tags", `codeinfuse, medium, gist`);
+    formData.append("upload_preset", "yunvjnkq"); // Replace the preset name with your own
+    formData.append("api_key", "1234567"); // Replace API key with your own Cloudinary key
+    formData.append("timestamp", (Date.now() / 1000) | 0);
+
+    // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+    return axios.post(url, formData, {
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    }).then(response => {
+      const data = response.data;
+      const fileURL = data.secure_url // You should store this URL for future references in your app
+      console.log(response);
+    })
   }
   renderField = (field, data, change) => {
-    const { species } = this.state;
+    const { species, fileName } = this.state;
     const { meta: { touched, error } } = field;
     const className = `${touched && error ? "has-danger" : ""}`;
     return (
@@ -69,9 +89,8 @@ class PetForm extends Component {
             }
             case "photo": {
               return <div className={b(block, "upload")}>
-                <label htmlFor="f02" className={b(block, "upload-label")}>Add pet picture</label>
-                <input id="f02" name="fileupload" type="file" onChange={e => this.setState({file: e.target.files[0]})} className={b(block, "photo-input")} />
-                <div className={b(block, "photo-submit")} onClick={this.upload}>Upload</div>
+                <label htmlFor="f02" className={b(block, "upload-label")}>{ fileName || 'Add pet picture'}</label>
+                <input id="f02" name="fileupload" type="file" onChange={this.upload} className={b(block, "photo-input")} />
               </div>
             }
             default:
