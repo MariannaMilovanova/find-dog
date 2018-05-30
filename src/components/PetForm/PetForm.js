@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import axios from 'axios';
-import { addPet } from "../../actions";
+import { addPet, uploadImage } from "../../actions";
 import { connect } from "react-redux";
 import { type, pets, breed, age, color } from "../messages";
 import { DropdownList } from "react-widgets";
 import "react-widgets/dist/css/react-widgets.css";
 import { b, createBlock } from "../../helpers/bem";
+import { Image, Icon } from "semantic-ui-react";
 import "./PetForm.css";
 import _ from "lodash";
 
 const block = createBlock("PetForm");
-
-const CLOUDINARY_URL='cloudinary://359629516473431:zCTgXyn6P-FOfpEpA6OvKzoGFQs@dskimackd';
-const UPLOAD_IMAGE_URL='https://api.cloudinary.com/v1_1/dskimackd/image/upload';
 
 const FIELDS = {
   foundOrLost: "whether pet was found or lost",
@@ -33,27 +30,17 @@ class PetForm extends Component {
       fileName: null
     };
   }
+
   upload = e => {
     const file = e.target.files[0];
-    this.setState({fileName: file.name || ''})
-    const cloudName = 'dskimackd';
-    const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("tags", `codeinfuse, medium, gist`);
-    formData.append("upload_preset", "yunvjnkq"); // Replace the preset name with your own
-    formData.append("api_key", "1234567"); // Replace API key with your own Cloudinary key
-    formData.append("timestamp", (Date.now() / 1000) | 0);
+    const size = file.size / 1024 / 1024;
+    if (size > 2) {
+      return alert("Size of file should not me more than 2MB");
+    }
+    this.setState({ fileName: file.name || "" });
+    this.props.uploadImage(file);
+  };
 
-    // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
-    return axios.post(url, formData, {
-      headers: { "X-Requested-With": "XMLHttpRequest" },
-    }).then(response => {
-      const data = response.data;
-      const fileURL = data.secure_url // You should store this URL for future references in your app
-      console.log(response);
-    })
-  }
   renderField = (field, data, change) => {
     const { species, fileName } = this.state;
     const { meta: { touched, error } } = field;
@@ -89,9 +76,10 @@ class PetForm extends Component {
             }
             case "photo": {
               return <div className={b(block, "upload")}>
-                <label htmlFor="f02" className={b(block, "upload-label")}>{ fileName || 'Add pet picture'}</label>
-                <input id="f02" name="fileupload" type="file" onChange={this.upload} className={b(block, "photo-input")} />
-              </div>
+                <label htmlFor="f02" className={b(block, "upload-label")}>{fileName || "Add pet picture"}</label>
+                <input id="f02" name="fileupload" type="file" onChange={this.upload}
+                       className={b(block, "photo-input")}/>
+              </div>;
             }
             default:
               return (<DropdownList
@@ -111,6 +99,10 @@ class PetForm extends Component {
     );
   };
   onSubmit = values => {
+    const lng = _.get(this, "props.temp.lng", false);
+    if(!lng) {
+      return alert("Please click on map to put the marker where you find or lost pet");
+    }
     console.log(values);
     this.props.addPet(values);
     /*this.props.addPet(values, () => {
@@ -120,13 +112,22 @@ class PetForm extends Component {
 
   render() {
     const { handleSubmit, change } = this.props;
+    const url = _.get(this, "props.temp.url", false);
+
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-        <Field
-          label="Upload pet's photo"
-          name='photo'
-          component={field => this.renderField(field)}
-        />
+        <div className={b(block, "animal-picture")}>
+          <Field
+            label="Upload pet's photo"
+            name='photo'
+            component={field => this.renderField(field)}
+          />
+          <div className={b(block, "picture")}>{url
+            ? <div>
+              <Image src={url} avatar size='small' alt={"picture"}/>
+            </div>
+            : <Icon name='spy' size='huge' color='blue'/>}</div>
+        </div>
         <Field
           label='Pet was found or lost'
           name='foundOrLost'
@@ -177,10 +178,14 @@ const validate = values => {
   return errors;
 };
 
+const mapStateToProps = state => ({
+  temp: state.markers.temp
+});
+
 export default reduxForm({
   validate,
   form: "NewAnimal",
   fields: _.keys(FIELDS)
 })(
-  connect(null, { addPet })(PetForm)
+  connect(mapStateToProps, { addPet, uploadImage })(PetForm)
 );

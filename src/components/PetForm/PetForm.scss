@@ -38,6 +38,14 @@
     overflow: hidden;
     white-space: nowrap;
   }
+  &__animal-picture {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+  }
+  &__picture {
+    margin-left: -130px;
+  }
 }
 [type=file] {
   position: absolute;
