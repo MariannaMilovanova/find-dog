@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, Icon } from 'semantic-ui-react';
 import { b, createBlock } from '../../helpers/bem';
-import "./login.scss";
+import "./Login.scss";
 
 const block = createBlock('UserData');
 

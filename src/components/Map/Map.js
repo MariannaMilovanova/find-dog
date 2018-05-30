@@ -2,8 +2,8 @@
 import React, {Component} from 'react';
 import {compose, withProps} from 'recompose';
 import {GoogleMap, withGoogleMap} from 'react-google-maps';
-import GreenMarker from './marker';
-import './map.css'
+import GreenMarker from './Marker';
+import './Map.css'
 import {get, map, uniqueId, noop} from 'lodash';
 
 

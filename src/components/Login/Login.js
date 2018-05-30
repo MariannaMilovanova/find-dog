@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {GoogleLogin, GoogleLogout} from 'react-google-login';
 import { b, createBlock } from '../../helpers/bem';
-import './login.css'
+import './Login.css'
 
 const block = createBlock('Login');
 
@@ -42,7 +42,7 @@ class Login extends Component {
                 <GoogleLogin
                     clientId={REACT_APP_OAuth_CLIENT_ID}
                     buttonText='Login'
-                    className={this.props.user ? b(block, 'none') : b(block, 'login-btn')}
+                    className={this.props.user ? b(block, 'none') : b(block, 'Login-btn')}
                     fetchBasicProfile={true}
                     onSuccess={this.responseSuccess}
                     onFailure={this.responseError}

@@ -1,4 +1,5 @@
 import * as types from './types';
+import {uniqueId} from 'lodash';
 
 export function userLogin(data) {
   return {
@@ -20,3 +21,11 @@ export const addTempMarker = coords => {
     coords
   };
 }
+
+export const addPet = data => {
+  return {
+    type: types.ADD_PET,
+    _id: uniqueId('pet_'),
+    data
+  };
+};
