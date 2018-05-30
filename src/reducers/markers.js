@@ -2,10 +2,12 @@ import * as types from '../actions/types';
 
 function markers(state = {temp:{}}, action) {
   switch (action.type) {
-    case types.ADD_TEMP_MARKER:
+    case types.ADD_TEMP_MARKER: {
+      const {coords} = action.coords;
       return {
-        ...state, temp: {type: 'temp', ...action.coords}
-      };
+        ...state, temp: {type: 'temp', position: {coords}}
+      }
+    }
     case types.UPLOAD_PICTURE: {
       const {secure_url} = action.payload.data;
       return {...state, temp: {...state.temp, url: secure_url}};
