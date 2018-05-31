@@ -9,6 +9,13 @@ export function userLogin(data) {
   };
 }
 
+export function getSavedMarkers(markers) {
+  return {
+    type: types.GET_SAVED_MARKERS,
+    markers
+  };
+}
+
 export function userLogout() {
   return {
     type: types.LOG_OUT
@@ -16,10 +23,10 @@ export function userLogout() {
 }
 
 
-export const addTempMarker = coords => {
+export const addTempMarker = marker => {
   return {
     type: types.ADD_TEMP_MARKER,
-    coords
+    marker
   };
 }
 

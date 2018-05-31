@@ -4,7 +4,7 @@ import Login from "../Login/Login";
 import UserData from "../Login/UserData";
 import Header from "./Header";
 import PetForm from "../PetForm/PetForm";
-import { userLogin, userLogout, addTempMarker } from "../../actions";
+import { userLogin, userLogout, addTempMarker, getSavedMarkers } from "../../actions";
 import { connect } from "react-redux";
 import { b, createBlock } from "../../helpers/bem";
 import "./HomePage.css";
@@ -18,6 +18,8 @@ class HomePage extends Component {
       let user = JSON.parse(localStorage.getItem(userId));
       this.props.userLogin(user);
     }
+    const savedMarkers = JSON.parse(localStorage.getItem('markers')) || {};
+    this.props.getSavedMarkers(savedMarkers);
   }
 
   render() {
@@ -45,7 +47,7 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => {
   return ({
-    user: state.user.user,
+    user: state.user,
     markers: state.markers
   });
 };
@@ -53,7 +55,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   userLogin,
   userLogout,
-  addTempMarker
+  addTempMarker,
+  getSavedMarkers
 };
 
 export default connect(

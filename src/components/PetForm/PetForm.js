@@ -99,7 +99,8 @@ class PetForm extends Component {
     );
   };
   onSubmit = values => {
-    const lng = _.get(this, "props.temp.lng", false);
+    console.warn('dasdas', this.props)
+    const lng = _.get(this, "props.temp.position.lng", false);
     if(!lng) {
       return alert("Please click on map to put the marker where you find or lost pet");
     }
