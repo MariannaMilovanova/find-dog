@@ -1,5 +1,5 @@
 import block from 'bem-cn';
-import { isEmpty, isString, isArray, reduce, first, uniq } from 'lodash';
+import { isEmpty, isString, isArray, uniq } from 'lodash';
 
 block.setup({
   el: '__',

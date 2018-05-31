@@ -4,7 +4,9 @@ import Login from "../Login/Login";
 import UserData from "../Login/UserData";
 import Header from "./Header";
 import PetForm from "../PetForm/PetForm";
-import { userLogin, userLogout, addTempMarker, getSavedMarkers } from "../../actions";
+import PetInfo from '../PetInfo/PetInfo';
+import { userLogin, userLogout, addTempMarker, getSavedMarkers, selectMarker } from "../../actions";
+import {get, isEmpty} from 'lodash';
 import { connect } from "react-redux";
 import { b, createBlock } from "../../helpers/bem";
 import "./HomePage.css";
@@ -23,7 +25,9 @@ class HomePage extends Component {
   }
 
   render() {
-    const { addTempMarker, markers } = this.props;
+    const { addTempMarker, markers, selectMarker } = this.props;
+    const selected = get(this, 'props.markers.selected', {});
+
     return (
       <div className={b(block)}>
         <div className={b(block, "header")}>
@@ -36,9 +40,9 @@ class HomePage extends Component {
         </div>
         <div className={b(block, "map-with-form")}>
           <div className={b(block, "map")}>
-            <MapComponent addTempMarker={addTempMarker} markers={markers}/>
+            <MapComponent addTempMarker={addTempMarker} markers={markers} selectMarker={selectMarker}/>
           </div>
-          <PetForm/>
+          {isEmpty(selected) ? <PetForm/> : <PetInfo info={selected} />}
         </div>
       </div>
     );
@@ -56,7 +60,8 @@ const mapDispatchToProps = {
   userLogin,
   userLogout,
   addTempMarker,
-  getSavedMarkers
+  getSavedMarkers,
+  selectMarker
 };
 
 export default connect(

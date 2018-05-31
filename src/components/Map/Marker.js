@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Marker, InfoWindow } from "react-google-maps";
-import {get} from 'lodash';
+import { get, noop } from "lodash";
 import temp from "../../assets/blue_marker.png";
 import lost from "../../assets/red_marker.png";
 import found from "../../assets/map-icon.png";
@@ -14,11 +14,13 @@ const markerIcon = {
 
 class CustomMarker extends Component {
   static defaultProps = {
-    marker: {}
+    marker: {},
+    selectMarker: noop,
   };
 
   static propTypes = {
-    marker: PropTypes.object
+    marker: PropTypes.object,
+    selectMarker: PropTypes.func
   };
 
   constructor(props) {
@@ -28,8 +30,9 @@ class CustomMarker extends Component {
     };
   }
 
-  onToggleOpen = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+  onToggleOpen = marker => {
+    const {selectMarker} = this.props;
+    selectMarker(marker);
   };
 
   render() {
@@ -38,11 +41,11 @@ class CustomMarker extends Component {
 
     return (
       <div className="marker">
-        <Marker icon={markerIcon[type]} position={marker.position} onClick={this.onToggleOpen}/>
-        {this.state.isOpen &&
+        <Marker icon={markerIcon[type]} position={marker.position} onClick={() => this.onToggleOpen(marker)}/>
+        {/*{this.state.isOpen &&
         <InfoWindow onCloseClick={this.onToggleOpen} position={marker.position}>
           <div>{marker.title}</div>
-        </InfoWindow>}
+        </InfoWindow>}*/}
       </div>
     );
   }

@@ -38,6 +38,13 @@ export const addPet = data => {
   };
 };
 
+export const selectMarker = marker => {
+  return {
+    type: types.SELECT_MARKER,
+    marker
+  };
+};
+
 export const uploadImage = file => {
   const cloudName = 'dskimackd';
   const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;

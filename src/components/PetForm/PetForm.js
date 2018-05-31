@@ -99,16 +99,11 @@ class PetForm extends Component {
     );
   };
   onSubmit = values => {
-    console.warn('dasdas', this.props)
     const lng = _.get(this, "props.temp.position.lng", false);
     if(!lng) {
       return alert("Please click on map to put the marker where you find or lost pet");
     }
-    console.log(values);
     this.props.addPet(values);
-    /*this.props.addPet(values, () => {
-      this.props.history.push('/');
-    });*/
   };
 
   render() {
@@ -127,7 +122,8 @@ class PetForm extends Component {
             ? <div>
               <Image src={url} avatar size='small' alt={"picture"}/>
             </div>
-            : <Icon name='paw' size='huge' color='brown'/>}</div>
+            : <Icon name='paw' size='huge' color='brown'/>}
+            </div>
         </div>
         <Field
           label='Pet was found or lost'

@@ -5,10 +5,12 @@ function markers(state = {temp:{}}, action) {
   switch (action.type) {
     case types.GET_SAVED_MARKERS:
       return {...state, ...action.markers};
+    case types.SELECT_MARKER:
+      return {...state, selected: action.marker};
     case types.ADD_TEMP_MARKER: {
       const {marker} = action;
       return {
-        ...state, temp: marker
+        ...state, temp: marker, selected: {}
       }
     }
     case types.UPLOAD_PICTURE: {
