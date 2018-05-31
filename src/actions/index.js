@@ -28,7 +28,7 @@ export const addTempMarker = marker => {
     type: types.ADD_TEMP_MARKER,
     marker
   };
-}
+};
 
 export const addPet = data => {
   return {
@@ -44,6 +44,7 @@ export const selectMarker = marker => {
     marker
   };
 };
+
 
 export const uploadImage = file => {
   const cloudName = 'dskimackd';

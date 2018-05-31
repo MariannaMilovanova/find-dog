@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center; }
   .PetInfo__info {
-    padding-top: 30px;
+    padding-top: 50px;
     padding-left: 50px; }
   .PetInfo__info-item {
     display: flex;
@@ -15,7 +15,8 @@
   .PetInfo__label {
     margin-right: 15px;
     font-size: 12px;
-    font-style: italic; }
+    font-style: italic;
+    font-weight: bold; }
   .PetInfo__value {
     padding-left: 120px; }
   .PetInfo__edit {

@@ -18,13 +18,24 @@ const labels = {
 
 export default class PetInfo extends Component {
   static defaultProps = {
-    selected: {}
+    selected: {},
+    goToEditMode: noop
   };
 
   static propTypes = {
-    selected: PropTypes.object
+    selected: PropTypes.object,
+    goToEditMode: PropTypes.func
   };
 
+  editData = () => {
+    const {selected, goToEditMode} = this.props;
+    const selectedUserId = get(selected, 'userId', false);
+    const userId = localStorage.getItem('active')  || 'unknown';
+    if (selectedUserId !== userId) {
+      return alert('Нou can not edit markers that ware created by other people')
+    }
+    return goToEditMode();
+  };
   render() {
     const {selected} = this.props;
     const info = get(selected, 'info', {});
@@ -44,7 +55,7 @@ export default class PetInfo extends Component {
           </div>))}
       </div>
       <div className={b(block, "edit")}>
-        <div className={b(block, "edit-btn")}>edit</div>
+        <div className={b(block, "edit-btn")} onClick={this.editData}>edit</div>
       </div>
     </div>
   }

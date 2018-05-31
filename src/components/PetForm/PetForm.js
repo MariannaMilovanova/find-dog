@@ -8,7 +8,7 @@ import "react-widgets/dist/css/react-widgets.css";
 import { b, createBlock } from "../../helpers/bem";
 import { Image, Icon } from "semantic-ui-react";
 import "./PetForm.css";
-import _ from "lodash";
+import {get, noop, each, omit, keys, toLower} from "lodash";
 
 const block = createBlock("PetForm");
 
@@ -61,7 +61,7 @@ class PetForm extends Component {
                 }}
               />);
             case "breed": {
-              const breedToShow = species ? breed[_.toLower(species)] : [];
+              const breedToShow = species ? breed[toLower(species)] : [];
               return (<DropdownList
                 {...field.input}
                 data={breedToShow}
@@ -99,16 +99,22 @@ class PetForm extends Component {
     );
   };
   onSubmit = values => {
-    const lng = _.get(this, "props.temp.position.lng", false);
+    const lng = get(this, "props.temp.position.lng", false);
+    const finishEditMode = get(this, 'props.finishEditMode', noop)
     if(!lng) {
       return alert("Please click on map to put the marker where you find or lost pet");
     }
     this.props.addPet(values);
+    finishEditMode();
+  };
+  onCancelClick = () => {
+    const finishEditMode = get(this, 'props.finishEditMode', noop);
+    finishEditMode();
   };
 
   render() {
     const { handleSubmit, change } = this.props;
-    const url = _.get(this, "props.temp.url", false);
+    const url = get(this, "props.temp.url", false);
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -156,7 +162,7 @@ class PetForm extends Component {
           component={field => this.renderField(field)}
         />
         <div className={b(block, "btns")}>
-          <div className='btn btn-danger'>Cancel</div>
+          <div className='btn btn-danger' onClick={this.onCancelClick}>Cancel</div>
           <button type='submit' className='btn btn-primary'>Submit</button>
         </div>
       </form>
@@ -166,7 +172,7 @@ class PetForm extends Component {
 
 const validate = values => {
   const errors = {};
-  _.each(_.omit(FIELDS, "photo"), (value, key) => {
+  each(omit(FIELDS, "photo"), (value, key) => {
     if (!values[key]) {
       if (key === "phone") return errors[key] = `${value}`;
       errors[key] = `Please select ${value}`;
@@ -182,7 +188,7 @@ const mapStateToProps = state => ({
 export default reduxForm({
   validate,
   form: "NewAnimal",
-  fields: _.keys(FIELDS)
+  fields: keys(FIELDS)
 })(
   connect(mapStateToProps, { addPet, uploadImage })(PetForm)
 );

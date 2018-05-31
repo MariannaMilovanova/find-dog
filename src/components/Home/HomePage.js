@@ -9,11 +9,19 @@ import { userLogin, userLogout, addTempMarker, getSavedMarkers, selectMarker } f
 import {get, isEmpty} from 'lodash';
 import { connect } from "react-redux";
 import { b, createBlock } from "../../helpers/bem";
+import Placeholder from '../Placeholder/Placeholder';
 import "./HomePage.css";
 
 const block = createBlock("Home");
 
 class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      editMode: false,
+      startReport: false
+    }
+  }
   componentDidMount() {
     let userId = localStorage.getItem("active");
     if (localStorage.getItem("active")) {
@@ -23,9 +31,23 @@ class HomePage extends Component {
     const savedMarkers = JSON.parse(localStorage.getItem('markers')) || {};
     this.props.getSavedMarkers(savedMarkers);
   }
+  renderRightBlock = (selected, editMode, temp)  => {
+    const {startReport} = this.state;
+    if (!isEmpty(temp) || startReport) {
+      return <PetForm finishEditMode={() => this.setState({editMode: false, startReport: false})} />
+    }
+    if(editMode && !isEmpty(selected)) {
+      return <PetForm selected={selected} finishEditMode={() => this.setState({editMode: false, startReport: false})}/>
+    }
+    if (!editMode && !isEmpty(selected)) {
+      return <PetInfo selected={selected} goToEditMode={() => this.setState({editMode: true})}/>
+    }
+    return <Placeholder startReport={() => this.setState({startReport: true})} />
+  };
 
   render() {
-    const { addTempMarker, markers, selectMarker } = this.props;
+    const { addTempMarker, markers, selectMarker, temp } = this.props;
+    const {editMode} = this.state;
     const selected = get(this, 'props.markers.selected', {});
 
     return (
@@ -42,7 +64,7 @@ class HomePage extends Component {
           <div className={b(block, "map")}>
             <MapComponent addTempMarker={addTempMarker} markers={markers} selectMarker={selectMarker}/>
           </div>
-          {isEmpty(selected) ? <PetForm/> : <PetInfo selected={selected} />}
+          {this.renderRightBlock(selected, editMode, temp)}
         </div>
       </div>
     );
@@ -52,7 +74,8 @@ class HomePage extends Component {
 const mapStateToProps = (state) => {
   return ({
     user: state.user,
-    markers: state.markers
+    markers: state.markers,
+    temp: state.markers.temp
   });
 };
 
