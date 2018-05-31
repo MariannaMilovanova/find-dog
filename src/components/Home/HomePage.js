@@ -10,6 +10,7 @@ import {get, isEmpty} from 'lodash';
 import { connect } from "react-redux";
 import { b, createBlock } from "../../helpers/bem";
 import Placeholder from '../Placeholder/Placeholder';
+import Filter from '../Filters/Filter';
 import "./HomePage.css";
 
 const block = createBlock("Home");
@@ -79,6 +80,7 @@ class HomePage extends Component {
         </div>
         <div className={b(block, "map-with-form")}>
           <div className={b(block, "map")}>
+            <Filter />
             <MapComponent addTempMarker={addTempMarker} markers={markers} selectMarker={selectMarker}/>
           </div>
           {this.renderRightBlock()}
