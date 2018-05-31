@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { b, createBlock } from "../../helpers/bem";
-import PropTypes from "prop-types";
-import { Image, Icon } from "semantic-ui-react";
 import "./Placeholder.css";
 import { get, noop } from "lodash";
 

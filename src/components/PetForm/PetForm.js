@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import { addPet, uploadImage } from "../../actions";
+import { addPet, uploadImage, updateData, changePhoto } from "../../actions";
 import { connect } from "react-redux";
 import { type, pets, breed, age, color } from "../messages";
 import { DropdownList } from "react-widgets";
@@ -27,7 +27,8 @@ class PetForm extends Component {
     super(props);
     this.state = {
       species: false,
-      fileName: null
+      fileName: null,
+      changeUpload: false
     };
   }
 
@@ -36,6 +37,11 @@ class PetForm extends Component {
     const size = file.size / 1024 / 1024;
     if (size > 2) {
       return alert("Size of file should not me more than 2MB");
+    }
+    const editMode = get(this, 'props.editMode', false);
+    if(editMode) {
+      this.setState({ fileName: file.name || "", changeUpload: true });
+      return this.props.changePhoto(file);
     }
     this.setState({ fileName: file.name || "" });
     this.props.uploadImage(file);
@@ -100,9 +106,17 @@ class PetForm extends Component {
   };
   onSubmit = values => {
     const lng = get(this, "props.temp.position.lng", false);
-    const finishEditMode = get(this, 'props.finishEditMode', noop)
-    if(!lng) {
+    const editMode = get(this, 'props.editMode', false);
+    const finishEditMode = get(this, 'props.finishEditMode', noop);
+    const selected = get(this, 'props.selected', {});
+    const {changeUpload} = this.state;
+
+    if(!lng && !editMode && !changeUpload) {
       return alert("Please click on map to put the marker where you find or lost pet");
+    }
+    if(editMode) {
+      this.props.updateData(values, selected._id);
+      return finishEditMode();
     }
     this.props.addPet(values);
     finishEditMode();
@@ -183,7 +197,7 @@ const validate = values => {
 
 const mapStateToProps = (state, ownProp) => {
   const info = get(ownProp, 'selected.info', false);
-  console.log(info, 'own')
+
   if  (info) {
     return {
       initialValues: {
@@ -207,4 +221,4 @@ const NewPetForm = reduxForm({
   fields: keys(FIELDS)
 }, mapStateToProps)(PetForm);
 
-export default connect(mapStateToProps, { addPet, uploadImage })(NewPetForm);
+export default connect(mapStateToProps, { addPet, uploadImage, updateData, changePhoto })(NewPetForm);

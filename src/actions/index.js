@@ -45,6 +45,40 @@ export const selectMarker = marker => {
   };
 };
 
+export const updateData = (data, _id) => {
+  return {
+    type: types.UPDATE_DATA,
+    data,
+    _id
+  };
+};
+
+export const deleteMarker = (_id) => {
+  return {
+    type: types.DELETE_MARKER,
+    _id
+  };
+};
+
+
+export const changePhoto = file => {
+  const cloudName = 'dskimackd';
+  const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("tags", `codeinfuse, medium, gist`);
+  formData.append("upload_preset", "yunvjnkq");
+  formData.append("api_key", "359629516473431");
+  formData.append("timestamp", (Date.now() / 1000) | 0);
+  const request = axios.post(url, formData, {
+    headers: { "X-Requested-With": "XMLHttpRequest" },
+  });
+
+  return {
+    type: types.CHANGE_PHOTO,
+    payload: request
+  };
+};
 
 export const uploadImage = file => {
   const cloudName = 'dskimackd';

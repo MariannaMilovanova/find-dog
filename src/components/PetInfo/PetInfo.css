@@ -24,7 +24,7 @@
     justify-content: center;
     margin-top: 20px;
     text-transform: uppercase; }
-  .PetInfo__edit-btn {
+  .PetInfo__edit-btn, .PetInfo__solved {
     background-color: #737373;
     border: 1px solid #D9D9D9;
     border-radius: 5px 5px 5px 5px;
@@ -36,3 +36,6 @@
     justify-content: center;
     align-items: center;
     height: 30px; }
+  .PetInfo__solved {
+    width: 220px;
+    background-color: #297347; }

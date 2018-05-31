@@ -5,3 +5,6 @@ export const ADD_PET = 'ADD_PET';
 export const UPLOAD_PICTURE = 'UPLOAD_PICTURE';
 export const GET_SAVED_MARKERS = 'GET_SAVED_MARKERS';
 export const SELECT_MARKER = 'SELECT_MARKER';
+export const UPDATE_DATA = 'UPDATE_DATA';
+export const CHANGE_PHOTO = 'CHANGE_PHOTO';
+export const DELETE_MARKER = 'DELETE_MARKER';

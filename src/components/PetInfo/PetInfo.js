@@ -19,12 +19,14 @@ const labels = {
 export default class PetInfo extends Component {
   static defaultProps = {
     selected: {},
-    goToEditMode: noop
+    goToEditMode: noop,
+    deleteMarker: noop
   };
 
   static propTypes = {
     selected: PropTypes.object,
-    goToEditMode: PropTypes.func
+    goToEditMode: PropTypes.func,
+    deleteMarker: PropTypes.func,
   };
 
   editData = () => {
@@ -37,7 +39,7 @@ export default class PetInfo extends Component {
     return goToEditMode();
   };
   render() {
-    const {selected} = this.props;
+    const {selected, deleteMarker} = this.props;
     const info = get(selected, 'info', {});
 
     return <div className={b(block)}>
@@ -56,6 +58,9 @@ export default class PetInfo extends Component {
       </div>
       <div className={b(block, "edit")}>
         <div className={b(block, "edit-btn")} onClick={this.editData}>edit</div>
+      </div>
+      <div className={b(block, "edit")}>
+        <div className={b(block, "solved")} onClick={() => deleteMarker(selected._id)}>owner/pet was found</div>
       </div>
     </div>
   }

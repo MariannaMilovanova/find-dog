@@ -5,7 +5,7 @@ import UserData from "../Login/UserData";
 import Header from "./Header";
 import PetForm from "../PetForm/PetForm";
 import PetInfo from '../PetInfo/PetInfo';
-import { userLogin, userLogout, addTempMarker, getSavedMarkers, selectMarker } from "../../actions";
+import { userLogin, userLogout, addTempMarker, getSavedMarkers, selectMarker, deleteMarker} from "../../actions";
 import {get, isEmpty} from 'lodash';
 import { connect } from "react-redux";
 import { b, createBlock } from "../../helpers/bem";
@@ -43,6 +43,7 @@ class HomePage extends Component {
 
   renderRightBlock = ()  => {
     const {startReport, temp, selected, editMode} = this.state;
+    const {deleteMarker} = this.props;
     console.warn('ss', selected)
     console.warn('tt', temp);
     console.warn('editMode', editMode);
@@ -55,10 +56,10 @@ class HomePage extends Component {
     if(selected && !isEmpty(selected)) {
       if(editMode) {
         console.log('bbb');
-        return <PetForm selected={selected} finishEditMode={() => this.setState({editMode: false, startReport: false, temp: false, selected: false})}/>
+        return <PetForm editMode selected={selected} finishEditMode={() => this.setState({editMode: false, startReport: false, temp: false, selected: false})}/>
       }
       console.log('ccc');
-      return <PetInfo selected={selected} goToEditMode={() => this.setState({editMode: true, startReport: false, selected: false, temp: false})}/>
+      return <PetInfo deleteMarker={deleteMarker} selected={selected} goToEditMode={() => this.setState({editMode: true, startReport: false, selected: false, temp: false})}/>
     }
     return <Placeholder startReport={() => this.setState({startReport: true})} />
   };
@@ -101,7 +102,8 @@ const mapDispatchToProps = {
   userLogout,
   addTempMarker,
   getSavedMarkers,
-  selectMarker
+  selectMarker,
+  deleteMarker
 };
 
 export default connect(
