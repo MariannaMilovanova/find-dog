@@ -19,7 +19,9 @@ class HomePage extends Component {
     super(props);
     this.state = {
       editMode: false,
-      startReport: false
+      startReport: false,
+      temp: false,
+      selected: false
     }
   }
   componentDidMount() {
@@ -31,24 +33,38 @@ class HomePage extends Component {
     const savedMarkers = JSON.parse(localStorage.getItem('markers')) || {};
     this.props.getSavedMarkers(savedMarkers);
   }
-  renderRightBlock = (selected, editMode, temp)  => {
-    const {startReport} = this.state;
-    if (!isEmpty(temp) || startReport) {
-      return <PetForm finishEditMode={() => this.setState({editMode: false, startReport: false})} />
+
+  static getDerivedStateFromProps(nextProps) {
+    return {
+      temp: nextProps.temp,
+      selected: nextProps.selected
+    };
+  }
+
+  renderRightBlock = ()  => {
+    const {startReport, temp, selected, editMode} = this.state;
+    console.warn('ss', selected)
+    console.warn('tt', temp);
+    console.warn('editMode', editMode);
+    console.warn('srart', startReport);
+
+    if ((temp && !isEmpty(temp)) || startReport) {
+      console.log('aa')
+      return <PetForm finishEditMode={() => this.setState({editMode: false, startReport: false, temp: false, selected: false})} />
     }
-    if(editMode && !isEmpty(selected)) {
-      return <PetForm selected={selected} finishEditMode={() => this.setState({editMode: false, startReport: false})}/>
-    }
-    if (!editMode && !isEmpty(selected)) {
-      return <PetInfo selected={selected} goToEditMode={() => this.setState({editMode: true})}/>
+    if(selected && !isEmpty(selected)) {
+      if(editMode) {
+        console.log('bbb');
+        return <PetForm selected={selected} finishEditMode={() => this.setState({editMode: false, startReport: false, temp: false, selected: false})}/>
+      }
+      console.log('ccc');
+      return <PetInfo selected={selected} goToEditMode={() => this.setState({editMode: true, startReport: false, selected: false, temp: false})}/>
     }
     return <Placeholder startReport={() => this.setState({startReport: true})} />
   };
 
   render() {
-    const { addTempMarker, markers, selectMarker, temp } = this.props;
-    const {editMode} = this.state;
-    const selected = get(this, 'props.markers.selected', {});
+    const { addTempMarker, markers, selectMarker } = this.props;
 
     return (
       <div className={b(block)}>
@@ -64,7 +80,7 @@ class HomePage extends Component {
           <div className={b(block, "map")}>
             <MapComponent addTempMarker={addTempMarker} markers={markers} selectMarker={selectMarker}/>
           </div>
-          {this.renderRightBlock(selected, editMode, temp)}
+          {this.renderRightBlock()}
         </div>
       </div>
     );
@@ -75,6 +91,7 @@ const mapStateToProps = (state) => {
   return ({
     user: state.user,
     markers: state.markers,
+    selected: state.markers.selected,
     temp: state.markers.temp
   });
 };

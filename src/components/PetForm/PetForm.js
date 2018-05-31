@@ -181,14 +181,30 @@ const validate = values => {
   return errors;
 };
 
-const mapStateToProps = state => ({
-  temp: state.markers.temp
-});
+const mapStateToProps = (state, ownProp) => {
+  const info = get(ownProp, 'selected.info', false);
+  console.log(info, 'own')
+  if  (info) {
+    return {
+      initialValues: {
+        foundOrLost: info.foundOrLost,
+        species: info.species,
+        breed: info.breed,
+        age: info.age,
+        color: info.color,
+        phone: info.phone,
+      },
+      temp: state.markers.temp
+    }
+  }
+  return {temp: state.markers.temp}
+};
 
-export default reduxForm({
+
+const NewPetForm = reduxForm({
   validate,
   form: "NewAnimal",
   fields: keys(FIELDS)
-})(
-  connect(mapStateToProps, { addPet, uploadImage })(PetForm)
-);
+}, mapStateToProps)(PetForm);
+
+export default connect(mapStateToProps, { addPet, uploadImage })(NewPetForm);
