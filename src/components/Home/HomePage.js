@@ -42,7 +42,7 @@ class HomePage extends Component {
           <div className={b(block, "map")}>
             <MapComponent addTempMarker={addTempMarker} markers={markers} selectMarker={selectMarker}/>
           </div>
-          {isEmpty(selected) ? <PetForm/> : <PetInfo info={selected} />}
+          {isEmpty(selected) ? <PetForm/> : <PetInfo selected={selected} />}
         </div>
       </div>
     );

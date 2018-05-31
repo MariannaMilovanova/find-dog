@@ -6,7 +6,7 @@ function markers(state = {temp:{}}, action) {
     case types.GET_SAVED_MARKERS:
       return {...state, ...action.markers};
     case types.SELECT_MARKER:
-      return {...state, selected: action.marker};
+      return {...state, selected: action.marker, temp: {}};
     case types.ADD_TEMP_MARKER: {
       const {marker} = action;
       return {
