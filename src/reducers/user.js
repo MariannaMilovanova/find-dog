@@ -1,23 +1,15 @@
-const initState = {
-    venues: [],
-    searchHistory: [],
-    user: null
-};
+import * as types from '../actions/types';
 
-function homeReducer(state = initState, action) {
+function user(state = null, action) {
     switch (action.type) {
-        case 'LOGIN_GET_USER_DATA':
-            return {
-                ...state, ...{user: action.data},
-                ...{searchHistory: action.data.searchHistory || []},
-                ...{venues: action.data.venues || []}
-            };
-        case 'LOG_OUT':
-            return {...state, ...{user: null}, ...{searchHistory: []}, ...{venues: []}};
+        case types.LOGIN_GET_USER_DATA:
+            return action.data;
+        case types.LOG_OUT:
+            return null;
 
         default:
             return state;
     }
 }
 
-export default homeReducer;
+export default user;

@@ -9,6 +9,13 @@ export function userLogin(data) {
   };
 }
 
+export function getSavedMarkers(markers) {
+  return {
+    type: types.GET_SAVED_MARKERS,
+    markers
+  };
+}
+
 export function userLogout() {
   return {
     type: types.LOG_OUT

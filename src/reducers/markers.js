@@ -3,6 +3,8 @@ import {get, toLower} from 'lodash';
 
 function markers(state = {temp:{}}, action) {
   switch (action.type) {
+    case types.GET_SAVED_MARKERS:
+      return {...state, ...action.markers};
     case types.ADD_TEMP_MARKER: {
       const {marker} = action;
       return {
@@ -16,11 +18,18 @@ function markers(state = {temp:{}}, action) {
     case types.ADD_PET: {
       const {_id} = action;
       const info = get(action, 'data', {});
+      const userId = localStorage.getItem('active')  || 'unknown';
+      const marker = {...state.temp, type: toLower(get(info, 'foundOrLost', 'temp')),  _id, info, userId: userId};
+
+      const savedMarkers = JSON.parse(localStorage.getItem('markers')) || {};
+      const markersToSave = {...savedMarkers, [_id]: marker};
+      localStorage.setItem('markers', JSON.stringify(markersToSave));
 
       return {
-        ...state, [_id]: {...state.temp, type: toLower(get(info, 'foundOrLost', 'temp')),  _id, info}, temp: {}
+        ...state, [_id]: marker, temp: {}
       }
     }
+
     default:
       return state;
   }

@@ -45,7 +45,6 @@ class MapComponent extends Component {
   render() {
     const { temp } = this.state;
     const markers = omit(get(this, 'props.markers', {}), 'temp');
-    console.log(markers)
 
     return (
       <div>
@@ -56,7 +55,7 @@ class MapComponent extends Component {
           defaultCenter={{ lat: 50.45, lng: 30.52 }}
         >
           {!isEmpty(temp) && <CustomMarker marker={temp}/>}
-          {map(markers, marker =>  <CustomMarker marker={marker} />)}
+          {map(markers, marker =>  <CustomMarker marker={marker} key={get(marker, '_id', uniqueId())}/>)}
         </GoogleMap>
       </div>
     );
