@@ -16,10 +16,10 @@ export function userLogout() {
 }
 
 
-export const addTempMarker = coords => {
+export const addTempMarker = marker => {
   return {
     type: types.ADD_TEMP_MARKER,
-    coords
+    marker
   };
 }
 
