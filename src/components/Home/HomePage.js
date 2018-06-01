@@ -45,16 +45,12 @@ class HomePage extends Component {
   renderRightBlock = ()  => {
     const {startReport, temp, selected, editMode} = this.state;
     const {deleteMarker} = this.props;
-    console.warn('ss', selected)
-    console.warn('tt', temp);
-    console.warn('editMode', editMode);
-    console.warn('srart', startReport);
 
-    if ((temp && !isEmpty(temp)) || startReport || editMode) {
-      return <PetForm selected={selected} editMode={editMode} finishEditMode={() => this.setState({editMode: false, startReport: false, temp: false})} />
+    if (startReport || !isEmpty(temp) || editMode) {
+      return <PetForm selected={selected} editMode={editMode} finishEditMode={() => this.setState({editMode: false, temp: false, startReport: false})} />
     }
     if(selected && !isEmpty(selected)) {
-      return <PetInfo deleteMarker={deleteMarker} selected={selected} goToEditMode={() => this.setState({editMode: true, startReport: false, temp: false})}/>
+      return <PetInfo deleteMarker={deleteMarker} selected={selected} goToEditMode={() => this.setState({editMode: true, temp: false})}/>
     }
     return <Placeholder startReport={() => this.setState({startReport: true})} />
   };

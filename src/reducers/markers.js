@@ -7,6 +7,8 @@ function markers(state = {temp:{}}, action) {
       return {...state, ...action.markers};
     case types.SELECT_MARKER:
       return {...state, selected: action.marker, temp: {}};
+    case types.CANCEL_ADD_PET:
+      return {...state, temp: {}, selected: {}};
     case types.ADD_TEMP_MARKER: {
       const {marker} = action;
       return {
@@ -21,7 +23,8 @@ function markers(state = {temp:{}}, action) {
       const {_id} = action;
       const info = get(action, 'data', {});
       const userId = localStorage.getItem('active')  || 'unknown';
-      const marker = {...state[_id], type: toLower(get(info, 'foundOrLost', 'temp')),  _id, info, userId: userId};
+      const newPhoto = get(state, 'selected.url');
+      const marker = {...state[_id], type: toLower(get(info, 'foundOrLost', 'temp')),  _id, info, userId: userId, url: newPhoto};
 
       const savedMarkers = JSON.parse(localStorage.getItem('markers')) || {};
       const markersToSave = {...savedMarkers, [_id]: marker};
@@ -36,14 +39,14 @@ function markers(state = {temp:{}}, action) {
       const info = get(action, 'data', {});
       const userId = localStorage.getItem('active')  || 'unknown';
       const {secure_url} = action.payload.data;
-      const marker = {...state[_id], type: toLower(get(info, 'foundOrLost', 'temp')),  _id, info, userId: userId};
+      const marker = {...state[_id], type: toLower(get(info, 'foundOrLost', 'temp')),  _id, info, userId: userId, url: secure_url};
 
       const savedMarkers = JSON.parse(localStorage.getItem('markers')) || {};
       const markersToSave = {...savedMarkers, [_id]: marker};
       localStorage.setItem('markers', JSON.stringify(markersToSave));
 
       return {
-        ...state, temp: {...state.temp, url: secure_url}, selected: {...state.selected, url: secure_url}, [_id]: {...marker, url: secure_url}
+        ...state, [_id]: {...marker}, temp: {...state.temp, url: secure_url}, selected: {...state.selected, url: secure_url}
       }
     }
     case types.ADD_PET: {

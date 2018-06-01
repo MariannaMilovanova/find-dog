@@ -8,3 +8,4 @@ export const SELECT_MARKER = 'SELECT_MARKER';
 export const UPDATE_DATA = 'UPDATE_DATA';
 export const CHANGE_PHOTO = 'CHANGE_PHOTO';
 export const DELETE_MARKER = 'DELETE_MARKER';
+export const CANCEL_ADD_PET = 'CANCEL_ADD_PET';

@@ -60,6 +60,12 @@ export const deleteMarker = (_id) => {
   };
 };
 
+export const cancelAddingPet = () => {
+  return {
+    type: types.CANCEL_ADD_PET
+  };
+};
+
 
 export const changePhoto = file => {
   const cloudName = 'dskimackd';

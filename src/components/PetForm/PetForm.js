@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import { addPet, uploadImage, updateData, changePhoto } from "../../actions";
+import { addPet, uploadImage, updateData, changePhoto, cancelAddingPet } from "../../actions";
 import { connect } from "react-redux";
 import { type, pets, breed, age, color } from "../messages";
 import { DropdownList } from "react-widgets";
@@ -123,12 +123,14 @@ class PetForm extends Component {
   };
   onCancelClick = () => {
     const finishEditMode = get(this, 'props.finishEditMode', noop);
+    const cancelAddingPet = get(this, 'props.cancelAddingPet', noop);
+    cancelAddingPet();
     finishEditMode();
   };
 
   render() {
     const { handleSubmit, change } = this.props;
-    const url = get(this, "props.temp.url", false);
+    const url = get(this, "props.temp.url", false) || get(this, "props.selected.url", false);
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -221,4 +223,4 @@ const NewPetForm = reduxForm({
   fields: keys(FIELDS)
 }, mapStateToProps)(PetForm);
 
-export default connect(mapStateToProps, { addPet, uploadImage, updateData, changePhoto })(NewPetForm);
+export default connect(mapStateToProps, { addPet, uploadImage, updateData, changePhoto, cancelAddingPet })(NewPetForm);
