@@ -50,17 +50,11 @@ class HomePage extends Component {
     console.warn('editMode', editMode);
     console.warn('srart', startReport);
 
-    if ((temp && !isEmpty(temp)) || startReport) {
-      console.log('aa')
-      return <PetForm finishEditMode={() => this.setState({editMode: false, startReport: false, temp: false, selected: false})} />
+    if ((temp && !isEmpty(temp)) || startReport || editMode) {
+      return <PetForm selected={selected} editMode={editMode} finishEditMode={() => this.setState({editMode: false, startReport: false, temp: false})} />
     }
     if(selected && !isEmpty(selected)) {
-      if(editMode) {
-        console.log('bbb');
-        return <PetForm editMode selected={selected} finishEditMode={() => this.setState({editMode: false, startReport: false, temp: false, selected: false})}/>
-      }
-      console.log('ccc');
-      return <PetInfo deleteMarker={deleteMarker} selected={selected} goToEditMode={() => this.setState({editMode: true, startReport: false, selected: false, temp: false})}/>
+      return <PetInfo deleteMarker={deleteMarker} selected={selected} goToEditMode={() => this.setState({editMode: true, startReport: false, temp: false})}/>
     }
     return <Placeholder startReport={() => this.setState({startReport: true})} />
   };

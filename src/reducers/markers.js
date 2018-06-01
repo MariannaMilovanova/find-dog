@@ -28,7 +28,7 @@ function markers(state = {temp:{}}, action) {
       localStorage.setItem('markers', JSON.stringify(markersToSave));
 
       return {
-        ...state, [_id]: marker, temp: {}
+        ...state, [_id]: marker, temp: {}, selected: marker
       }
     }
     case types.CHANGE_PHOTO: {
@@ -66,7 +66,7 @@ function markers(state = {temp:{}}, action) {
       const markersToSave = omit(savedMarkers, _id);
 
       localStorage.setItem('markers', JSON.stringify(markersToSave));
-      return omit(state, _id)
+      return {...omit(state, _id), temp: {}, selected: {}}
     }
 
     default:
