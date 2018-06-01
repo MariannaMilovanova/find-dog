@@ -30,6 +30,13 @@
         position: relative;
         margin-right: 15px;
     }
+    &__no-result {
+        position: absolute;
+        top: 10px;
+        left: 80px;
+        color: #8d0000;
+        font-style: italic;
+    }
 }
 
 .Header {

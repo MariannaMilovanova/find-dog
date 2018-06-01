@@ -6,7 +6,7 @@ import Header from "./Header";
 import PetForm from "../PetForm/PetForm";
 import PetInfo from '../PetInfo/PetInfo';
 import { userLogin, userLogout, addTempMarker, getSavedMarkers, selectMarker, deleteMarker, filterMarkers, clearAllFilters} from "../../actions";
-import {isEmpty} from 'lodash';
+import {isEmpty, get, isString} from 'lodash';
 import { connect } from "react-redux";
 import { b, createBlock } from "../../helpers/bem";
 import Placeholder from '../Placeholder/Placeholder';
@@ -70,7 +70,8 @@ class HomePage extends Component {
         </div>
         <div className={b(block, "map-with-form")}>
           <div className={b(block, "map")}>
-            <Filter filterMarkers={filterMarkers} clearAllFilters={clearAllFilters}/>
+            <Filter filterMarkers={filterMarkers} filters={get(markers, 'filters', {})} clearAllFilters={clearAllFilters}/>
+            {isString(get(this, 'props.markers.filtered', false)) && <div className={b(block, 'no-result')}>No Result Was Found</div>}
             <MapComponent addTempMarker={addTempMarker} markers={markers} selectMarker={selectMarker}/>
           </div>
           {this.renderRightBlock()}

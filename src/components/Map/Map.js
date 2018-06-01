@@ -3,7 +3,7 @@ import { compose, withProps } from "recompose";
 import { GoogleMap, withGoogleMap } from "react-google-maps";
 import CustomMarker from "./Marker";
 import "./Map.css";
-import { get, map, uniqueId, noop, isEmpty, omit } from "lodash";
+import { get, map, uniqueId, noop, isEmpty, omit, isString } from "lodash";
 import PropTypes from "prop-types";
 
 class MapComponent extends Component {
@@ -59,7 +59,7 @@ class MapComponent extends Component {
           defaultCenter={{ lat: 50.45, lng: 30.52 }}
         >
           {!isEmpty(temp) && <CustomMarker marker={temp}/>}
-          {map(markersToShow, marker =>  <CustomMarker marker={marker} key={get(marker, '_id', uniqueId())} selectMarker={selectMarker} />)}
+          {!isString(markersToShow) && map(markersToShow, marker =>  <CustomMarker marker={marker} key={get(marker, '_id', uniqueId())} selectMarker={selectMarker} />)}
         </GoogleMap>
       </div>
     );

@@ -26,6 +26,12 @@
     height: 500px;
     position: relative;
     margin-right: 15px; }
+  .Home__no-result {
+    position: absolute;
+    top: 10px;
+    left: 80px;
+    color: #8d0000;
+    font-style: italic; }
 
 .Header__welcome {
   padding-top: 50px; }

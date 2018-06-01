@@ -13,49 +13,63 @@ const block = createBlock("Filter");
 export default class Filter extends Component {
   static defaultProps = {
     filterMarkers: noop,
-    clearAllFilters: noop
+    clearAllFilters: noop,
+    filters: {}
   };
 
   static propTypes = {
     filterMarkers: PropTypes.func,
     clearAllFilters: PropTypes.func,
+    filters: PropTypes.object,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       breedsToShow: [],
-      breed: ''
+      breed: '',
+      pet: '',
+      typeSingle: ''
     };
 
   }
-  onTypeChange = type => this.props.filterMarkers('foundOrLost', type);
+  onTypeChange = typeSingle => {
+    this.setState({typeSingle});
+    this.props.filterMarkers('foundOrLost', typeSingle);
+  };
 
   onBreedChange = breed => {
     this.setState({breed: breed});
     this.props.filterMarkers('breed', breed);
   };
   onSpeciesChange = pet => {
-    this.setState({breedsToShow: breed[toLower(pet)], breed: ''});
+    this.setState({breedsToShow: breed[toLower(pet)], breed: '', pet});
     this.props.filterMarkers('species', pet, true);
   };
-
+  clearAll = ()=>{
+    this.setState({
+      breed: '',
+      pet: '',
+      typeSingle: ''
+    });
+    this.props.clearAllFilters();
+  };
   render() {
-    const { breedsToShow, breed } = this.state;
+    const { breedsToShow, breed, pet, typeSingle } = this.state;
 
     return <div className={b(block)}>
       <div className={b(block, "label")}>Filter by:</div>
       <div className={b(block, "filters")}>
         <div className={b(block, "filter", "type")}>
-          <DropdownList data={type} placeholder={"by found/lost"} onChange={this.onTypeChange}/>
+          <DropdownList data={type} placeholder={"by found/lost"} value={typeSingle} onChange={this.onTypeChange}/>
         </div>
         <div className={b(block, "filter", "species")}>
-          <DropdownList data={pets} placeholder={"by species"} onChange={this.onSpeciesChange}/>
+          <DropdownList data={pets} placeholder={"by species"} value={pet} onChange={this.onSpeciesChange}/>
         </div>
         <div className={b(block, "filter", "breed")}>
           <DropdownList data={breedsToShow} placeholder={"by breed"} value={breed} onChange={this.onBreedChange}/>
         </div>
-        <Button size={'small'} onClick={this.props.clearAllFilters}>CLEAR</Button>
+        <Button size={'small'} onClick={this.clearAll}>CLEAR</Button>
       </div>
     </div>;
   }

@@ -17,5 +17,6 @@ export const applyFilters = (markers, filters, isPetChanged) => {
   if (breed && !isPetChanged) {
     newMarkers = filter(newMarkers, {info: {breed}});
   }
+  if (isEmpty(newMarkers)) return 'No Result Was Found';
   return newMarkers;
 };
