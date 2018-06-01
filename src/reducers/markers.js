@@ -1,10 +1,11 @@
 import * as types from '../actions/types';
-import {get, toLower, omit} from 'lodash';
+import {get, toLower, omit, pickBy, values} from 'lodash';
+import {applyFilters} from './helpFunctions';
 
-function markers(state = {temp:{}}, action) {
+function markers(state = {temp:{}, selected:{}, filters:{}}, action) {
   switch (action.type) {
     case types.GET_SAVED_MARKERS:
-      return {...state, ...action.markers};
+      return {...state, ...action.markers, selected: {}, temp: {}};
     case types.SELECT_MARKER:
       return {...state, selected: action.marker, temp: {}};
     case types.CANCEL_ADD_PET:
@@ -14,6 +15,14 @@ function markers(state = {temp:{}}, action) {
       return {
         ...state, temp: marker, selected: {}
       }
+    }
+    case types.ClEAR_FILTERS:
+      return {...state, filters: {}, filtered: []};
+    case types.FILTER_MARKERS: {
+      const {filterBy, value, isPetChanged} = action;
+      const markers = omit(state, ['selected'], 'temp');
+      const newFilters = {...state.filters, [filterBy]: value};
+      return {...state, filters: newFilters, filtered: applyFilters(values(markers), newFilters, isPetChanged)}
     }
     case types.UPLOAD_PICTURE: {
       const {secure_url} = action.payload.data;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Marker, InfoWindow } from "react-google-maps";
+import { Marker} from "react-google-maps";
 import { get, noop } from "lodash";
 import temp from "../../assets/blue_marker.png";
 import lost from "../../assets/red_marker.png";
@@ -42,10 +42,6 @@ class CustomMarker extends Component {
     return (
       <div className="marker">
         <Marker icon={markerIcon[type]} position={marker.position} onClick={() => this.onToggleOpen(marker)}/>
-        {/*{this.state.isOpen &&
-        <InfoWindow onCloseClick={this.onToggleOpen} position={marker.position}>
-          <div>{marker.title}</div>
-        </InfoWindow>}*/}
       </div>
     );
   }

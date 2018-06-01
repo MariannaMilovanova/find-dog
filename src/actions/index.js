@@ -66,6 +66,20 @@ export const cancelAddingPet = () => {
   };
 };
 
+export const filterMarkers = (filterBy, value, isPetChanged = false) => {
+  return {
+    type: types.FILTER_MARKERS,
+    filterBy,
+    value,
+    isPetChanged
+  };
+};
+
+export const clearAllFilters = () => {
+  return {
+    type: types.ClEAR_FILTERS
+  };
+};
 
 export const changePhoto = file => {
   const cloudName = 'dskimackd';

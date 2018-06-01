@@ -5,8 +5,6 @@ import CustomMarker from "./Marker";
 import "./Map.css";
 import { get, map, uniqueId, noop, isEmpty, omit } from "lodash";
 import PropTypes from "prop-types";
-import { selectMarker } from "../../actions";
-
 
 class MapComponent extends Component {
   static defaultProps = {
@@ -39,7 +37,7 @@ class MapComponent extends Component {
 
   onMapClick = e => {
     const {addTempMarker} = this.props;
-    const marker = { position: { lat: e.latLng.lat(), lng: e.latLng.lng() }, title: "temp", type: "temp" };
+    const marker = { position: { lat: e.latLng.lat(), lng: e.latLng.lng() }, type: "temp" };
     this.setState({
       temp: marker
     });
@@ -48,8 +46,9 @@ class MapComponent extends Component {
 
   render() {
     const { temp } = this.state;
-    const {selectMarker, addTempMarker} = this.props;
-    const markers = omit(get(this, 'props.markers', {}), ['temp', 'selected']);
+    const {selectMarker, markers} = this.props;
+    const filtered = get(this, 'props.markers.filtered', []);
+    const markersToShow = isEmpty(filtered) ? omit(markers, ['temp', 'selected', 'filtered', 'filters']): filtered;
 
     return (
       <div>
@@ -60,7 +59,7 @@ class MapComponent extends Component {
           defaultCenter={{ lat: 50.45, lng: 30.52 }}
         >
           {!isEmpty(temp) && <CustomMarker marker={temp}/>}
-          {map(markers, marker =>  <CustomMarker marker={marker} key={get(marker, '_id', uniqueId())} selectMarker={selectMarker} />)}
+          {map(markersToShow, marker =>  <CustomMarker marker={marker} key={get(marker, '_id', uniqueId())} selectMarker={selectMarker} />)}
         </GoogleMap>
       </div>
     );

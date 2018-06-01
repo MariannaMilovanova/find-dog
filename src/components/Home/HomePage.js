@@ -5,8 +5,8 @@ import UserData from "../Login/UserData";
 import Header from "./Header";
 import PetForm from "../PetForm/PetForm";
 import PetInfo from '../PetInfo/PetInfo';
-import { userLogin, userLogout, addTempMarker, getSavedMarkers, selectMarker, deleteMarker} from "../../actions";
-import {get, isEmpty} from 'lodash';
+import { userLogin, userLogout, addTempMarker, getSavedMarkers, selectMarker, deleteMarker, filterMarkers, clearAllFilters} from "../../actions";
+import {isEmpty} from 'lodash';
 import { connect } from "react-redux";
 import { b, createBlock } from "../../helpers/bem";
 import Placeholder from '../Placeholder/Placeholder';
@@ -56,7 +56,7 @@ class HomePage extends Component {
   };
 
   render() {
-    const { addTempMarker, markers, selectMarker } = this.props;
+    const { addTempMarker, markers, selectMarker, filterMarkers, clearAllFilters } = this.props;
 
     return (
       <div className={b(block)}>
@@ -70,7 +70,7 @@ class HomePage extends Component {
         </div>
         <div className={b(block, "map-with-form")}>
           <div className={b(block, "map")}>
-            <Filter />
+            <Filter filterMarkers={filterMarkers} clearAllFilters={clearAllFilters}/>
             <MapComponent addTempMarker={addTempMarker} markers={markers} selectMarker={selectMarker}/>
           </div>
           {this.renderRightBlock()}
@@ -95,7 +95,9 @@ const mapDispatchToProps = {
   addTempMarker,
   getSavedMarkers,
   selectMarker,
-  deleteMarker
+  deleteMarker,
+  filterMarkers,
+  clearAllFilters
 };
 
 export default connect(
