@@ -13,7 +13,7 @@ function markers(state = {temp:{}, selected:{}, filters:{}}, action) {
     case types.ADD_TEMP_MARKER: {
       const {marker} = action;
       return {
-        ...state, temp: marker, selected: {}
+        ...state, temp: marker, selected: {}, filters:{}, filtered: []
       }
     }
     case types.ClEAR_FILTERS:

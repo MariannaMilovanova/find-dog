@@ -5,6 +5,7 @@ import { noop, toLower } from "lodash";
 import { Button } from 'semantic-ui-react';
 import { DropdownList } from "react-widgets";
 import { type, pets, breed } from "../messages";
+import {isEmpty} from 'lodash';
 import "react-widgets/dist/css/react-widgets.css";
 import PropTypes from "prop-types";
 
@@ -32,6 +33,16 @@ export default class Filter extends Component {
       typeSingle: ''
     };
 
+  }
+  static getDerivedStateFromProps(nextProps) {
+    if(isEmpty(nextProps.filters)) {
+      return {
+        breed: '',
+        pet: '',
+        typeSingle: ''
+      };
+    }
+    return null;
   }
   onTypeChange = typeSingle => {
     this.setState({typeSingle});
