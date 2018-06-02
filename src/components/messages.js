@@ -36,3 +36,12 @@ export const breed = {
 export const age = ['0-3 month', '3-6 month', 'up to 1 year', '1-2 years', '2-5 years', 'more than 5 years', 'unknown'];
 
 export const color = ['Red', 'Blue', 'Chocolate', 'Seal', 'Silver', 'Cream', 'Brown', 'Calico', 'Orange', '2 colors', '3 colors', 'Other'];
+
+export const radiusOpt = [
+  {value: 100, label: '100 m'},
+  {value: 500,  label: '500 m'},
+  {value: 1000, label: '1 km'},
+  {value: 2000, label: '2 km'},
+  {value: 5000, label: '5 km'},
+  {value: 10000, label: '10 km'}
+];

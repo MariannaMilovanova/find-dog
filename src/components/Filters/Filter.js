@@ -4,7 +4,7 @@ import "./Filter.css";
 import { noop, toLower } from "lodash";
 import { Button } from 'semantic-ui-react';
 import { DropdownList } from "react-widgets";
-import { type, pets, breed } from "../messages";
+import { type, pets, breed, radiusOpt } from "../messages";
 import {isEmpty} from 'lodash';
 import "react-widgets/dist/css/react-widgets.css";
 import PropTypes from "prop-types";
@@ -30,7 +30,8 @@ export default class Filter extends Component {
       breedsToShow: [],
       breed: '',
       pet: '',
-      typeSingle: ''
+      typeSingle: '',
+      radius: ''
     };
 
   }
@@ -39,7 +40,8 @@ export default class Filter extends Component {
       return {
         breed: '',
         pet: '',
-        typeSingle: ''
+        typeSingle: '',
+        radius: ''
       };
     }
     return null;
@@ -60,8 +62,12 @@ export default class Filter extends Component {
   clearAll = () =>{
     this.props.clearAllFilters();
   };
+  onRadiusChange = radius => {
+    this.setState({radius});
+    this.props.filterMarkers('radius', radius.value);
+  };
   render() {
-    const { breedsToShow, breed, pet, typeSingle } = this.state;
+    const { breedsToShow, breed, pet, typeSingle, radius } = this.state;
 
     return <div className={b(block)}>
       <div className={b(block, "label")}>Filter by:</div>
@@ -76,7 +82,7 @@ export default class Filter extends Component {
           <DropdownList data={breedsToShow} placeholder={"by breed"} value={breed} onChange={this.onBreedChange}/>
         </div>
         <div className={b(block, "filter", "radius")}>
-          <DropdownList data={[]} placeholder={"by radius"} value={''} />
+          <DropdownList valueField="value" textField="label" data={radiusOpt} value={radius} placeholder={"by radius"} onChange={this.onRadiusChange} />
         </div>
         <Button size={'small'} onClick={this.clearAll}>CLEAR</Button>
       </div>

@@ -72,7 +72,7 @@ class HomePage extends Component {
           <div className={b(block, "map")}>
             <Filter filterMarkers={filterMarkers} filters={get(markers, 'filters', {})} clearAllFilters={clearAllFilters}/>
             {isString(get(this, 'props.markers.filtered', false)) && <div className={b(block, 'no-result')}>No Result Was Found</div>}
-            <MapComponent addTempMarker={addTempMarker} markers={markers} selectMarker={selectMarker}/>
+            <MapComponent radius={get(markers, 'filters.radius', false)} addTempMarker={addTempMarker} markers={markers} selectMarker={selectMarker}/>
           </div>
           {this.renderRightBlock()}
         </div>

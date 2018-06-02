@@ -5,6 +5,7 @@ export const applyFilters = (markers, filters, isPetChanged) => {
   const foundOrLost = get(filters, 'foundOrLost', false);
   const species = get(filters, 'species', false);
   const breed = get(filters, 'breed', false);
+  const radius = get(filters, 'radius', false);
 
   let newMarkers = [...markers];
 

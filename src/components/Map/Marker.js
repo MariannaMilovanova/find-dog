@@ -14,12 +14,10 @@ const markerIcon = {
 
 class CustomMarker extends Component {
   static defaultProps = {
-    marker: {},
     selectMarker: noop,
   };
 
   static propTypes = {
-    marker: PropTypes.object,
     selectMarker: PropTypes.func
   };
 
@@ -36,7 +34,7 @@ class CustomMarker extends Component {
   };
 
   render() {
-    const { marker } = this.props;
+   const marker = get(this, 'props.marker', {});
     const type = get(this, 'props.marker.type', 'temp');
 
     return (

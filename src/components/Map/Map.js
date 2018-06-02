@@ -11,13 +11,15 @@ class MapComponent extends Component {
   static defaultProps = {
     markers: {},
     selectMarker: noop,
-    addTempMarker: noop
+    addTempMarker: noop,
+    radius: false
   };
 
   static propTypes = {
     markers: PropTypes.object,
     selectMarker: PropTypes.func,
-    addTempMarker: PropTypes.func
+    addTempMarker: PropTypes.func,
+    radius: PropTypes.any
   };
 
   constructor(props) {
@@ -48,7 +50,7 @@ class MapComponent extends Component {
 
   render() {
     const { temp, defaultCenter } = this.state;
-    const {selectMarker, markers} = this.props;
+    const {selectMarker, markers, radius} = this.props;
     const filtered = get(this, 'props.markers.filtered', []);
     const markersToShow = isEmpty(filtered) ? omit(markers, ['temp', 'selected', 'filtered', 'filters']): filtered;
 
@@ -60,7 +62,7 @@ class MapComponent extends Component {
           onClick={this.onMapClick}
           defaultCenter={defaultCenter}
         >
-          <Circle center={defaultCenter} radius={1000}/>
+          {radius && <Circle center={defaultCenter} radius={radius} options={{fillColor: '#20e52d', strokeColor: '#20e52d', strokeWeight: '1', strokeOpacity:'0.5'}} />}
           {!isEmpty(temp) && <CustomMarker marker={temp}/>}
           {!isString(markersToShow) && map(markersToShow, marker =>  <CustomMarker marker={marker} key={get(marker, '_id', uniqueId())} selectMarker={selectMarker} />)}
         </GoogleMap>
