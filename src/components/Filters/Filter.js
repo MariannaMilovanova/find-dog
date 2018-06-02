@@ -5,7 +5,7 @@ import { noop, toLower } from 'lodash';
 import { Button } from 'semantic-ui-react';
 import { DropdownList } from 'react-widgets';
 import { type, pets, breed, radiusOpt } from '../messages';
-import { isEmpty } from 'lodash';
+import { isEmpty, find } from 'lodash';
 import 'react-widgets/dist/css/react-widgets.css';
 import PropTypes from 'prop-types';
 
@@ -15,12 +15,14 @@ export default class Filter extends Component {
   static defaultProps = {
     filterMarkers: noop,
     clearAllFilters: noop,
-    filters: {}
+    filters: {},
+    selectRadius: noop
   };
 
   static propTypes = {
     filterMarkers: PropTypes.func,
     clearAllFilters: PropTypes.func,
+    selectRadius: PropTypes.func,
     filters: PropTypes.object
   };
 
@@ -35,35 +37,29 @@ export default class Filter extends Component {
     };
   }
   static getDerivedStateFromProps(nextProps) {
-    if (isEmpty(nextProps.filters)) {
-      return {
-        breed: '',
-        pet: '',
-        typeSingle: '',
-        radius: ''
+    console.log(nextProps.radius)
+    return {
+        typeSingle: nextProps.filters.foundOrLost,
+        pet: nextProps.filters.species,
+        breed: nextProps.filters.breed,
+        radius: nextProps.radius ? find(radiusOpt, {value: nextProps.radius}) : ''
       };
-    }
-    return null;
   }
   onTypeChange = typeSingle => {
-    this.setState({ typeSingle });
     this.props.filterMarkers('foundOrLost', typeSingle);
   };
 
   onBreedChange = breed => {
-    this.setState({ breed: breed });
     this.props.filterMarkers('breed', breed);
   };
   onSpeciesChange = pet => {
-    this.setState({ breedsToShow: breed[toLower(pet)], breed: '', pet });
     this.props.filterMarkers('species', pet, true);
   };
   clearAll = () => {
     this.props.clearAllFilters();
   };
   onRadiusChange = radius => {
-    this.setState({ radius });
-    this.props.filterMarkers('radius', radius.value);
+    this.props.selectRadius(radius.value);
   };
   render() {
     const { breedsToShow, breed, pet, typeSingle, radius } = this.state;

@@ -111,13 +111,14 @@ class HomePage extends Component {
               filterMarkers={filterMarkers}
               filters={get(markers, 'filters', {})}
               clearAllFilters={clearAllFilters}
+              radius={get(this, 'props.radius', false)}
             />
             {isString(get(this, 'props.markers.filtered', false)) && (
               <div className={b(block, 'no-result')}>No Result Was Found</div>
             )}
             <MapComponent
               filterMarkers={filterMarkers}
-              radius={get(markers, 'filters.radius', false)}
+              radius={get(this, 'props.radius', false)}
               addTempMarker={addTempMarker}
               markers={markers}
               selectMarker={selectMarker}
@@ -135,7 +136,8 @@ const mapStateToProps = state => {
     user: state.user,
     markers: state.markers,
     selected: state.markers.selected,
-    temp: state.markers.temp
+    temp: state.markers.temp,
+    radius: state.radius
   };
 };
 

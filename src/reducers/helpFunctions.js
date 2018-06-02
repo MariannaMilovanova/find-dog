@@ -5,7 +5,6 @@ export const applyFilters = (markers, filters, isPetChanged) => {
   const species = get(filters, 'species', false);
   const breed = get(filters, 'breed', false);
   const radiusData = get(filters, 'radiusData', false);
-  const radius = get(filters, 'radius', false);
 
   let newMarkers = [...markers];
 
@@ -20,6 +19,7 @@ export const applyFilters = (markers, filters, isPetChanged) => {
   }
   if (radiusData) {
     const { neLng, neLat, swLng, swLat } = radiusData;
+    console.log(newMarkers);
     newMarkers = filter(newMarkers, item => {
       if (
         inRange(item.position.lng, swLng, neLng) &&
