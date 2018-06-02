@@ -1,6 +1,7 @@
+/*global google*/
 import React, { Component } from "react";
 import { compose, withProps } from "recompose";
-import { GoogleMap, withGoogleMap } from "react-google-maps";
+import { GoogleMap, withGoogleMap, Circle } from "react-google-maps";
 import CustomMarker from "./Marker";
 import "./Map.css";
 import { get, map, uniqueId, noop, isEmpty, omit, isString } from "lodash";
@@ -22,7 +23,8 @@ class MapComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      temp: {}
+      temp: {},
+      defaultCenter: { lat: 50.45, lng: 30.52 }
     };
   }
 
@@ -45,7 +47,7 @@ class MapComponent extends Component {
   };
 
   render() {
-    const { temp } = this.state;
+    const { temp, defaultCenter } = this.state;
     const {selectMarker, markers} = this.props;
     const filtered = get(this, 'props.markers.filtered', []);
     const markersToShow = isEmpty(filtered) ? omit(markers, ['temp', 'selected', 'filtered', 'filters']): filtered;
@@ -56,8 +58,9 @@ class MapComponent extends Component {
           ref={el => this.map = el}
           defaultZoom={12}
           onClick={this.onMapClick}
-          defaultCenter={{ lat: 50.45, lng: 30.52 }}
+          defaultCenter={defaultCenter}
         >
+          <Circle center={defaultCenter} radius={1000}/>
           {!isEmpty(temp) && <CustomMarker marker={temp}/>}
           {!isString(markersToShow) && map(markersToShow, marker =>  <CustomMarker marker={marker} key={get(marker, '_id', uniqueId())} selectMarker={selectMarker} />)}
         </GoogleMap>

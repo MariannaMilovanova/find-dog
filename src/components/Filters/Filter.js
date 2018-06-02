@@ -75,6 +75,9 @@ export default class Filter extends Component {
         <div className={b(block, "filter", "breed")}>
           <DropdownList data={breedsToShow} placeholder={"by breed"} value={breed} onChange={this.onBreedChange}/>
         </div>
+        <div className={b(block, "filter", "radius")}>
+          <DropdownList data={[]} placeholder={"by radius"} value={''} />
+        </div>
         <Button size={'small'} onClick={this.clearAll}>CLEAR</Button>
       </div>
     </div>;
