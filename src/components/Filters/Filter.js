@@ -57,12 +57,7 @@ export default class Filter extends Component {
     this.setState({breedsToShow: breed[toLower(pet)], breed: '', pet});
     this.props.filterMarkers('species', pet, true);
   };
-  clearAll = ()=>{
-    this.setState({
-      breed: '',
-      pet: '',
-      typeSingle: ''
-    });
+  clearAll = () =>{
     this.props.clearAllFilters();
   };
   render() {
