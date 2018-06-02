@@ -11,3 +11,4 @@ export const DELETE_MARKER = 'DELETE_MARKER';
 export const CANCEL_ADD_PET = 'CANCEL_ADD_PET';
 export const FILTER_MARKERS = 'FILTER_MARKERS';
 export const ClEAR_FILTERS = 'ClEAR_FILTERS';
+export const SELECT_RADIUS = 'SELECT_RADIUS';

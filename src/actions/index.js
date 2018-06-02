@@ -1,6 +1,6 @@
 import * as types from './types';
-import {uniqueId} from 'lodash';
-import axios from "axios";
+import { uniqueId } from 'lodash';
+import axios from 'axios';
 
 export function userLogin(data) {
   return {
@@ -21,7 +21,6 @@ export function userLogout() {
     type: types.LOG_OUT
   };
 }
-
 
 export const addTempMarker = marker => {
   return {
@@ -53,7 +52,7 @@ export const updateData = (data, _id) => {
   };
 };
 
-export const deleteMarker = (_id) => {
+export const deleteMarker = _id => {
   return {
     type: types.DELETE_MARKER,
     _id
@@ -81,17 +80,24 @@ export const clearAllFilters = () => {
   };
 };
 
+export const selectRadius = radius => {
+  return {
+    type: types.SELECT_RADIUS,
+    radius
+  };
+};
+
 export const changePhoto = file => {
   const cloudName = 'dskimackd';
   const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
   const formData = new FormData();
-  formData.append("file", file);
-  formData.append("tags", `codeinfuse, medium, gist`);
-  formData.append("upload_preset", "yunvjnkq");
-  formData.append("api_key", "359629516473431");
-  formData.append("timestamp", (Date.now() / 1000) | 0);
+  formData.append('file', file);
+  formData.append('tags', `codeinfuse, medium, gist`);
+  formData.append('upload_preset', 'yunvjnkq');
+  formData.append('api_key', '359629516473431');
+  formData.append('timestamp', (Date.now() / 1000) | 0);
   const request = axios.post(url, formData, {
-    headers: { "X-Requested-With": "XMLHttpRequest" },
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
   });
 
   return {
@@ -104,13 +110,13 @@ export const uploadImage = file => {
   const cloudName = 'dskimackd';
   const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
   const formData = new FormData();
-  formData.append("file", file);
-  formData.append("tags", `codeinfuse, medium, gist`);
-  formData.append("upload_preset", "yunvjnkq");
-  formData.append("api_key", "359629516473431");
-  formData.append("timestamp", (Date.now() / 1000) | 0);
+  formData.append('file', file);
+  formData.append('tags', `codeinfuse, medium, gist`);
+  formData.append('upload_preset', 'yunvjnkq');
+  formData.append('api_key', '359629516473431');
+  formData.append('timestamp', (Date.now() / 1000) | 0);
   const request = axios.post(url, formData, {
-    headers: { "X-Requested-With": "XMLHttpRequest" },
+    headers: { 'X-Requested-With': 'XMLHttpRequest' }
   });
 
   return {
@@ -118,4 +124,3 @@ export const uploadImage = file => {
     payload: request
   };
 };
-

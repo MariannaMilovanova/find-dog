@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {Circle} from "react-google-maps";
-import {get, noop} from "lodash";
+import React, { Component } from 'react';
+import { Circle } from 'react-google-maps';
+import { get, noop } from 'lodash';
 
 class CustomCircle extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class CustomCircle extends Component {
       center: get(this, 'props.center', {})
     };
   }
-  componentDidMount(){
+  componentDidMount() {
     this.getBoundsToFilter();
   }
   componentWillReceiveProps(nextProps) {
@@ -19,7 +19,7 @@ class CustomCircle extends Component {
       return this.setState({
         radius: nextProps.radius,
         center: nextProps.center
-      })
+      });
     }
   }
 
@@ -30,18 +30,26 @@ class CustomCircle extends Component {
     const neLat = bounds.getNorthEast().lat();
     const swLng = bounds.getSouthWest().lng();
     const swLat = bounds.getSouthWest().lat();
-    return filterMarkers('radiusData', {neLng, neLat, swLng, swLat});
+    return filterMarkers('radiusData', { neLng, neLat, swLng, swLat });
   };
 
   render() {
-    const {radius, center} = this.state;
+    const { radius, center } = this.state;
 
-    return <Circle
-      onCenterChanged={() => this.setState({center})}
-      ref={el => this.circle = el}
-      center={center}
-      radius={radius}
-      options={{fillColor: '#20e52d', strokeColor: '#20e52d', strokeWeight: '1', strokeOpacity:'0.5'}} />
+    return (
+      <Circle
+        onCenterChanged={() => this.setState({ center })}
+        ref={el => (this.circle = el)}
+        center={center}
+        radius={radius}
+        options={{
+          fillColor: '#20e52d',
+          strokeColor: '#20e52d',
+          strokeWeight: '1',
+          strokeOpacity: '0.5'
+        }}
+      />
+    );
   }
 }
 

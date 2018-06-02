@@ -1,12 +1,12 @@
 /*global google*/
-import React, { Component } from "react";
-import { compose, withProps } from "recompose";
-import { GoogleMap, withGoogleMap } from "react-google-maps";
+import React, { Component } from 'react';
+import { compose, withProps } from 'recompose';
+import { GoogleMap, withGoogleMap } from 'react-google-maps';
 import CustomCircle from './Circle';
-import CustomMarker from "./Marker";
-import "./Map.css";
-import { get, map, uniqueId, noop, isEmpty, omit, isString } from "lodash";
-import PropTypes from "prop-types";
+import CustomMarker from './Marker';
+import './Map.css';
+import { get, map, uniqueId, noop, isEmpty, omit, isString } from 'lodash';
+import PropTypes from 'prop-types';
 
 class MapComponent extends Component {
   static defaultProps = {
@@ -30,7 +30,7 @@ class MapComponent extends Component {
     this.state = {
       temp: {},
       defaultCenter: { lat: 50.45, lng: 30.52 },
-      center: {lat: 50.45, lng: 30.52}
+      center: { lat: 50.45, lng: 30.52 }
     };
   }
 
@@ -46,8 +46,11 @@ class MapComponent extends Component {
   }
 
   onMapClick = e => {
-    const {addTempMarker} = this.props;
-    const marker = { position: { lat: e.latLng.lat(), lng: e.latLng.lng() }, type: "temp" };
+    const { addTempMarker } = this.props;
+    const marker = {
+      position: { lat: e.latLng.lat(), lng: e.latLng.lng() },
+      type: 'temp'
+    };
     this.setState({
       temp: marker
     });
@@ -58,7 +61,7 @@ class MapComponent extends Component {
     let newCenter = {};
     newCenter.lat = center.lat();
     newCenter.lng = center.lng();
-    this.setState({center: newCenter})
+    this.setState({ center: newCenter });
   };
   onRadiusChanged = () => {
     const bounds = this.circle.getBounds();
@@ -68,31 +71,50 @@ class MapComponent extends Component {
 
   render() {
     const { temp, center } = this.state;
-    const {selectMarker, markers, radius, filterMarkers} = this.props;
+    const { selectMarker, markers, radius, filterMarkers } = this.props;
     const filtered = get(this, 'props.markers.filtered', []);
-    const markersToShow = isEmpty(filtered) ? omit(markers, ['temp', 'selected', 'filtered', 'filters']): filtered;
+    const markersToShow = isEmpty(filtered)
+      ? omit(markers, ['temp', 'selected', 'filtered', 'filters'])
+      : filtered;
 
     return (
       <div>
         <GoogleMap
-          ref={el => this.map = el}
+          ref={el => (this.map = el)}
           defaultZoom={12}
           onClick={this.onMapClick}
           center={center}
           onCenterChanged={this.onCenterChanged}
         >
-          {radius && <CustomCircle filterMarkers={filterMarkers} center={center} radius={radius} />}
-          {!isEmpty(temp) && <CustomMarker marker={temp}/>}
-          {!isString(markersToShow) && map(markersToShow, marker =>  <CustomMarker marker={marker} key={get(marker, '_id', uniqueId())} selectMarker={selectMarker} />)}
+          {radius && (
+            <CustomCircle
+              filterMarkers={filterMarkers}
+              center={center}
+              radius={radius}
+            />
+          )}
+          {!isEmpty(temp) && <CustomMarker marker={temp} />}
+          {!isString(markersToShow) &&
+            map(markersToShow, marker => (
+              <CustomMarker
+                marker={marker}
+                key={get(marker, '_id', uniqueId())}
+                selectMarker={selectMarker}
+              />
+            ))}
         </GoogleMap>
       </div>
     );
   }
 }
 
-export default compose(withProps({
-  googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
-  loadingElement: <div style={{ height: `100%` }}/>,
-  containerElement: <div style={{ height: `700px` }}/>,
-  mapElement: <div style={{ height: `100%` }}/>
-}), withGoogleMap)(MapComponent);
+export default compose(
+  withProps({
+    googleMapURL:
+      'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places',
+    loadingElement: <div style={{ height: `100%` }} />,
+    containerElement: <div style={{ height: `700px` }} />,
+    mapElement: <div style={{ height: `100%` }} />
+  }),
+  withGoogleMap
+)(MapComponent);
