@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-import {get, toLower, omit, pickBy, values} from 'lodash';
+import {get, toLower, omit, values} from 'lodash';
 import {applyFilters} from './helpFunctions';
 
 function markers(state = {temp:{}, selected:{}, filters:{}}, action) {

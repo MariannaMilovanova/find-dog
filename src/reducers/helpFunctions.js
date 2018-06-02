@@ -1,4 +1,4 @@
-import {filter, isEmpty, includes, get} from 'lodash';
+import {filter, isEmpty, get} from 'lodash';
 
 
 export const applyFilters = (markers, filters, isPetChanged) => {

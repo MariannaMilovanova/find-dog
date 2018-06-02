@@ -1,7 +1,8 @@
 /*global google*/
 import React, { Component } from "react";
 import { compose, withProps } from "recompose";
-import { GoogleMap, withGoogleMap, Circle } from "react-google-maps";
+import { GoogleMap, withGoogleMap } from "react-google-maps";
+import CustomCircle from './Circle';
 import CustomMarker from "./Marker";
 import "./Map.css";
 import { get, map, uniqueId, noop, isEmpty, omit, isString } from "lodash";
@@ -12,31 +13,36 @@ class MapComponent extends Component {
     markers: {},
     selectMarker: noop,
     addTempMarker: noop,
-    radius: false
+    radius: false,
+    filterMarkers: noop
   };
 
   static propTypes = {
     markers: PropTypes.object,
     selectMarker: PropTypes.func,
     addTempMarker: PropTypes.func,
-    radius: PropTypes.any
+    radius: PropTypes.any,
+    filterMarkers: PropTypes.func
   };
 
   constructor(props) {
     super(props);
     this.state = {
       temp: {},
-      defaultCenter: { lat: 50.45, lng: 30.52 }
+      defaultCenter: { lat: 50.45, lng: 30.52 },
+      center: {lat: 50.45, lng: 30.52}
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.markers.temp !== prevState.temp) {
+    if (nextProps.radius) {
       return {
         temp: nextProps.markers.temp
       };
     }
-    return null;
+    return {
+      temp: nextProps.markers.temp
+    };
   }
 
   onMapClick = e => {
@@ -47,10 +53,22 @@ class MapComponent extends Component {
     });
     addTempMarker(marker);
   };
+  onCenterChanged = data => {
+    const center = this.map.getCenter();
+    let newCenter = {};
+    newCenter.lat = center.lat();
+    newCenter.lng = center.lng();
+    this.setState({center: newCenter})
+  };
+  onRadiusChanged = () => {
+    const bounds = this.circle.getBounds();
+    const ne = bounds.getNorthEast();
+    console.log(bounds);
+  };
 
   render() {
-    const { temp, defaultCenter } = this.state;
-    const {selectMarker, markers, radius} = this.props;
+    const { temp, center } = this.state;
+    const {selectMarker, markers, radius, filterMarkers} = this.props;
     const filtered = get(this, 'props.markers.filtered', []);
     const markersToShow = isEmpty(filtered) ? omit(markers, ['temp', 'selected', 'filtered', 'filters']): filtered;
 
@@ -60,9 +78,10 @@ class MapComponent extends Component {
           ref={el => this.map = el}
           defaultZoom={12}
           onClick={this.onMapClick}
-          defaultCenter={defaultCenter}
+          center={center}
+          onCenterChanged={this.onCenterChanged}
         >
-          {radius && <Circle center={defaultCenter} radius={radius} options={{fillColor: '#20e52d', strokeColor: '#20e52d', strokeWeight: '1', strokeOpacity:'0.5'}} />}
+          {radius && <CustomCircle filterMarkers={filterMarkers} center={center} radius={radius} />}
           {!isEmpty(temp) && <CustomMarker marker={temp}/>}
           {!isString(markersToShow) && map(markersToShow, marker =>  <CustomMarker marker={marker} key={get(marker, '_id', uniqueId())} selectMarker={selectMarker} />)}
         </GoogleMap>
