@@ -91,16 +91,12 @@ class PetForm extends Component {
                 <DropdownList
                   {...field.input}
                   data={breedToShow}
-                  onChange={value => {
-                    this.setState({ species: value });
-                    field.input.onChange(value);
-                  }}
                 />
               );
             }
             case 'phone': {
               return (
-                <input {...field.input} className={b(block, 'phone-input')} />
+                <input {...field.input} type='text' className={b(block, 'phone-input')} />
               );
             }
             case 'photo': {
