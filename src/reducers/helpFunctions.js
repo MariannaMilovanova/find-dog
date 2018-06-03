@@ -18,7 +18,11 @@ export const applyFilters = (markers, filters) => {
     newMarkers = filter(newMarkers, { info: { breed } });
   }
   if (radiusData) {
-    newMarkers = filter(newMarkers, item => radiusData.contains(item.position));
+    newMarkers = filter(newMarkers, item => {
+      if(item.position) {
+        return radiusData.contains(item.position)
+      }
+    });
   }
   if (isEmpty(newMarkers)) return 'No Result Was Found';
 
