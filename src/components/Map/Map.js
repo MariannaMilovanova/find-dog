@@ -92,7 +92,7 @@ class MapComponent extends Component {
             map(markersToShow, marker => (
               <CustomMarker
                 marker={marker}
-                key={get(marker, '_id', uniqueId())}
+                key={get(marker, '_id', uniqueId('marker_'))}
                 selectMarker={selectMarker}
               />
             ))}
