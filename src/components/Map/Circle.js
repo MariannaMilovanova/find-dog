@@ -13,26 +13,22 @@ class CustomCircle extends Component {
   componentDidMount() {
     this.getBoundsToFilter();
   }
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.radius !== this.state.radius) {
-      return this.setState({
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.radius !== prevState.radius) {
+      return {
         radius: nextProps.radius,
         center: nextProps.center
-      });
+      }
     }
+    return null;
   }
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps) {
     if(this.state.radius !== prevProps.radius) {
       this.getBoundsToFilter();
     }
   }
   getBoundsToFilter = () => {
     const filterMarkers = get(this, 'props.filterMarkers', noop);
-    const bounds = this.circle.getBounds();
-    const neLng = bounds.getNorthEast().lng();
-    const neLat = bounds.getNorthEast().lat();
-    const swLng = bounds.getSouthWest().lng();
-    const swLat = bounds.getSouthWest().lat();
     return filterMarkers('radiusData', this.circle.getBounds());
   };
 

@@ -1,4 +1,3 @@
-/*global google*/
 import React, { Component } from 'react';
 import { compose, withProps } from 'recompose';
 import { GoogleMap, withGoogleMap } from 'react-google-maps';
@@ -62,11 +61,6 @@ class MapComponent extends Component {
     newCenter.lat = center.lat();
     newCenter.lng = center.lng();
     this.setState({ center: newCenter });
-  };
-  onRadiusChanged = () => {
-    const bounds = this.circle.getBounds();
-    const ne = bounds.getNorthEast();
-    console.log(bounds);
   };
 
   render() {

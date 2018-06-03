@@ -32,10 +32,19 @@ class PetForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      species: false,
+      species: get(this, 'props.selected.info.species', false),
       fileName: null,
       changeUpload: false
     };
+  }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const nextPrSpecies = get(nextProps, 'selected.info.species', false);
+    if (nextPrSpecies) {
+      return {
+        species: nextPrSpecies
+      }
+    }
+    return null;
   }
 
   upload = e => {

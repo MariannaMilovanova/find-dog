@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { b, createBlock } from '../../helpers/bem';
 import './Filter.css';
-import { noop, toLower } from 'lodash';
+import { noop, toLower, find } from 'lodash';
 import { Button } from 'semantic-ui-react';
 import { DropdownList } from 'react-widgets';
 import { type, pets, breeds, radiusOpt } from '../messages';
-import { isEmpty, find } from 'lodash';
 import 'react-widgets/dist/css/react-widgets.css';
 import PropTypes from 'prop-types';
 

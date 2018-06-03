@@ -102,10 +102,10 @@ export const color = [
 ];
 
 export const radiusOpt = [
-  { value: 100, label: '100 m' },
   { value: 500, label: '500 m' },
   { value: 1000, label: '1 km' },
   { value: 2000, label: '2 km' },
+  { value: 3000, label: '3 km' },
   { value: 5000, label: '5 km' },
   { value: 10000, label: '10 km' }
 ];

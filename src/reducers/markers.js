@@ -25,13 +25,13 @@ function markers(state = { temp: {}, selected: {}, filters: {} }, action) {
     case types.FILTER_MARKERS: {
       const { filterBy, value, isPetChanged } = action;
       const markers = omit(state, ['selected', 'temp', 'filtered', 'filters']);
-
-      const newFilters = { ...state.filters, [filterBy]: value };
+      const breed = filterBy === 'breed' ? value : isPetChanged ? '' :  state.filters.breed;
+      const newFilters = { ...state.filters, [filterBy]: value, breed };
 
       return {
         ...state,
         filters: newFilters,
-        filtered: applyFilters(values(markers), newFilters, isPetChanged)
+        filtered: applyFilters(values(markers), newFilters)
       };
     }
     case types.UPLOAD_PICTURE: {
