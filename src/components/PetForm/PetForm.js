@@ -125,7 +125,6 @@ class PetForm extends Component {
                   {...field.input}
                   data={data}
                   onChange={value => {
-                    console.log(value);
                     field.input.onChange(value);
                   }}
                 />

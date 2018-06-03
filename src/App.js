@@ -3,12 +3,11 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import HomePage from './components/Home/HomePage';
-import logger from 'redux-logger';
 import reducers from './reducers';
 import promise from 'redux-promise';
 import './styles/style.css';
 
-const createStoreWithMiddleware = applyMiddleware(promise, logger)(createStore);
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 export default () => (
   <Provider store={createStoreWithMiddleware(reducers)}>
