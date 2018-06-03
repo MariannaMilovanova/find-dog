@@ -6,6 +6,8 @@ function user(state = null, action) {
       return action.radius;
     case types.ClEAR_FILTERS:
       return false;
+    case types.ADD_TEMP_MARKER:
+      return false;
     default:
       return state;
   }

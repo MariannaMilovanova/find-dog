@@ -8,7 +8,7 @@ import {
   cancelAddingPet
 } from '../../actions';
 import { connect } from 'react-redux';
-import { type, pets, breed, age, color } from '../messages';
+import { type, pets, breeds, age, color } from '../messages';
 import { DropdownList } from 'react-widgets';
 import 'react-widgets/dist/css/react-widgets.css';
 import { b, createBlock } from '../../helpers/bem';
@@ -77,7 +77,7 @@ class PetForm extends Component {
                 />
               );
             case 'breed': {
-              const breedToShow = species ? breed[toLower(species)] : [];
+              const breedToShow = species ? breeds[toLower(species)] : [];
               return (
                 <DropdownList
                   {...field.input}

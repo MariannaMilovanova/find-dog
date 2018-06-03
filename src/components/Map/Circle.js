@@ -15,14 +15,17 @@ class CustomCircle extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.radius !== this.state.radius) {
-      this.getBoundsToFilter();
       return this.setState({
         radius: nextProps.radius,
         center: nextProps.center
       });
     }
   }
-
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if(this.state.radius !== prevProps.radius) {
+      this.getBoundsToFilter();
+    }
+  }
   getBoundsToFilter = () => {
     const filterMarkers = get(this, 'props.filterMarkers', noop);
     const bounds = this.circle.getBounds();
@@ -30,7 +33,7 @@ class CustomCircle extends Component {
     const neLat = bounds.getNorthEast().lat();
     const swLng = bounds.getSouthWest().lng();
     const swLat = bounds.getSouthWest().lat();
-    return filterMarkers('radiusData', { neLng, neLat, swLng, swLat });
+    return filterMarkers('radiusData', this.circle.getBounds());
   };
 
   render() {

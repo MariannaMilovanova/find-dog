@@ -22,7 +22,7 @@ export const type = ['Found', 'Lost'];
 
 export const pets = ['Cat', 'Dog', 'Bird', 'Rodent'];
 
-export const breed = {
+export const breeds = {
   cat: [
     'No breed',
     'Abyssinian',

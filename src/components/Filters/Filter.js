@@ -4,7 +4,7 @@ import './Filter.css';
 import { noop, toLower } from 'lodash';
 import { Button } from 'semantic-ui-react';
 import { DropdownList } from 'react-widgets';
-import { type, pets, breed, radiusOpt } from '../messages';
+import { type, pets, breeds, radiusOpt } from '../messages';
 import { isEmpty, find } from 'lodash';
 import 'react-widgets/dist/css/react-widgets.css';
 import PropTypes from 'prop-types';
@@ -37,7 +37,6 @@ export default class Filter extends Component {
     };
   }
   static getDerivedStateFromProps(nextProps) {
-    console.log(nextProps.radius)
     return {
         typeSingle: nextProps.filters.foundOrLost,
         pet: nextProps.filters.species,
@@ -62,7 +61,7 @@ export default class Filter extends Component {
     this.props.selectRadius(radius.value);
   };
   render() {
-    const { breedsToShow, breed, pet, typeSingle, radius } = this.state;
+    const { breed, pet, typeSingle, radius } = this.state;
 
     return (
       <div className={b(block)}>
@@ -86,7 +85,7 @@ export default class Filter extends Component {
           </div>
           <div className={b(block, 'filter', 'breed')}>
             <DropdownList
-              data={breedsToShow}
+              data={breeds[toLower(pet)]}
               placeholder={'by breed'}
               value={breed}
               onChange={this.onBreedChange}

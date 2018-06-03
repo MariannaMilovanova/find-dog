@@ -18,18 +18,9 @@ export const applyFilters = (markers, filters, isPetChanged) => {
     newMarkers = filter(newMarkers, { info: { breed } });
   }
   if (radiusData) {
-    const { neLng, neLat, swLng, swLat } = radiusData;
-    console.log(newMarkers);
-    newMarkers = filter(newMarkers, item => {
-      if (
-        inRange(item.position.lng, swLng, neLng) &&
-        inRange(item.position.lat, swLat, neLat)
-      ) {
-        console.warn('position', item.position);
-        console.warn('lat', swLat, neLat);
-        return item;
-      }
-    });
+    console.log('1', newMarkers);
+    newMarkers = filter(newMarkers, item => radiusData.contains(item.position));
+    console.log('2', newMarkers);
   }
   if (isEmpty(newMarkers)) return 'No Result Was Found';
 
