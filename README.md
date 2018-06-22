@@ -14,4 +14,4 @@ but in this case it turns out that you will can not use Google Sign In by trying
 directly accessing files locally (index.html). The Google Sign In API only works in a running web server.
 And I register it to works on http://localhost:3000/, so please do not change the default port.
 
-![alt text](/home/marianna/Desktop/sirko-search.png?raw=true "Title)
+![alt text](sirko-search.png)
